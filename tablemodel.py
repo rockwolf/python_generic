@@ -60,6 +60,10 @@ class TableModel(QTableWidget):
         self.tablecontent.append(row)
         self.refresh()
 
+    def update_row(self, row, index):
+        """ update selected row with new data """
+        pass
+
     def delete_row(self, index=-1):
         """ delete a row on an index or just remove the last row. """
         if index == -1:
