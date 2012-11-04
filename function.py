@@ -28,5 +28,7 @@ def string_to_datetime(datetime_string, datetime_format='%Y-%m-%d %H:%M:%S'):
 
 def string_to_date(date_string):
     """ Returns a datetime, formatted as a date (without timing info).  """
+    date_string = date_string.split(' ')
+    date_string = date_string[0]
     return string_to_datetime(date_string, '%Y-%m-%d')
 
