@@ -20,7 +20,7 @@ from datetime import datetime
 def current_date(date_format='%Y-%m-%d %H:%M:%S'):
     """ Returns the current date, formatted. """
     now = datetime.now()
-    return now.strftime(date_format)
+    return string_to_datetime(now.strftime(date_format))
 
 def string_to_datetime(datetime_string, datetime_format='%Y-%m-%d %H:%M:%S'):
     """ Returns a datetime from a string. """
