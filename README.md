@@ -5,6 +5,6 @@ projects. From generic printing functions to current date retrieval... it's all 
 
 
 Instructions:
-- check out jenny  
+- check out  
 - create symbolic link in project folder, point it to this repo folder  
 - add the link to the syspath so you can import the modules  
