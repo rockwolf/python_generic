@@ -27,9 +27,9 @@ class MessageHandler:
             ).strip().lower()
         if answer != 'y':
             print('Aborted.')
-            return -1
+            return False
         elif answer == 'y':
-            return 0
+            return True
 
     def print_action(self, stract, dictstr):
         """ Print message about straction for each item in the lstObj list """
