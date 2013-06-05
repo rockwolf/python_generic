@@ -1,17 +1,5 @@
 """
-This file is part of Lisa.
-
-Lisa is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Lisa is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with Lisa. If not, see <http://www.gnu.org/licenses/>.
+    See LICENSE file for copyright and license details.    
 """
 class MessageHandler:
     """ A general class to handle messages """
@@ -30,6 +18,12 @@ class MessageHandler:
             return False
         elif answer == 'y':
             return True
+    
+    def get_input(self, label):
+        """
+            Ask for user input and return it as a string.
+        """
+        return input(label).strip().lower()
 
     def print_action(self, stract, dictstr):
         """ Print message about straction for each item in the lstObj list """
