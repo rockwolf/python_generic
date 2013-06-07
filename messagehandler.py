@@ -15,7 +15,7 @@ class MessageHandler:
         """
             Show confirmation dialog
         """
-        answer = input('{}? [y|n] '.format(stract) \
+        answer = input('{} [y|n] '.format(stract) \
             ).strip().lower()
         if answer == 'y':
             return True
