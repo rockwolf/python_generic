@@ -10,14 +10,14 @@ class MessageHandler:
     def confirmation(self, stract):
         """ Show confirmation dialog """
         answer = \
-            raw_input(
-                'Are you sure you want to %s? [y|n] ' % stract \
+            input(
+                'Are you sure you want to %s? [y|n] '.format(stract) \
             ).strip().lower()
-        if answer != 'y':
+        if answer == 'y':
+            return True
+        else:
             print('Aborted.')
             return False
-        elif answer == 'y':
-            return True
     
     def get_input(self, label):
         """
