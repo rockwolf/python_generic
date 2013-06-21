@@ -304,6 +304,7 @@ def calculate_commission(account, market, commodity, price, shares):
     """
         Calculate the correct commission.
     """
+    result = DEFAULT_DECIMAL
     if account.lower() == "binb00":
         result = get_binb00_commission(market)
     elif account.lower() == "whsi00":
