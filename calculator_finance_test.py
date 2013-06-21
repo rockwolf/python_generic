@@ -8,10 +8,9 @@ Unit test for calculator_finance.py
 """
 import calculator_finance
 import unittest
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from function import *
 from modules.constant import *
-
 class TestValues(unittest.TestCase):
     """
         Test the calculations with an example.
@@ -58,8 +57,8 @@ class TestValues(unittest.TestCase):
             ,'cost_total': DEFAULT_DECIMAL
             ,'amount_buy_simple':Decimal(2500.0)
             ,'amount_sell_simple':Decimal(3000.0)
-            ,'amount_buy':2513.5
-            ,'amount_sell':2486.50
+            ,'amount_buy':Decimal(2513.5)
+            ,'amount_sell':Decimal(2486.50)
             ,'cost_transaction_buy': DEFAULT_DECIMAL
             ,'cost_transaction_sell': DEFAULT_DECIMAL
             ,'cost_tax_buy': DEFAULT_DECIMAL
@@ -83,7 +82,7 @@ class TestValues(unittest.TestCase):
         result = calculator_finance.calculate_percentage_of(
                 Decimal(25.45),
                 Decimal(100.0))
-        self.assertEqual(Decimal(25.45), result)
+        self.assertAlmostEqual(float(25.45), float(result), 4)
 
     def test_calculate_stoploss(self):
         """
@@ -97,7 +96,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_buy'],
                     value['i_risk_input'],
                     value['i_pool'])
-            self.assertEqual(value['result_values']['stoploss'], result)
+            self.assertAlmostEqual(float(value['result_values']['stoploss']), float(result), 4)
 
     def test_calculate_risk_input(self):
         """
@@ -107,7 +106,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_risk_input(
                     value['i_pool'],
                     value['i_risk_input'])
-            self.assertEqual(value['result_values']['risk_input'], result)
+            self.assertAlmostEqual(float(value['result_values']['risk_input']), float(result), 4)
 
     def calculate_risk_initial(self):
         """
@@ -118,7 +117,7 @@ class TestValues(unittest.TestCase):
                     value['i_price_buy'],
                     value['i_shares'],
                     value['result_values']['stoploss'])
-            self.assertEqual(value['result_values']['risk_initial'], result)
+            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
                     
 
     def calculate_risk_actual(self):
@@ -133,7 +132,7 @@ class TestValues(unittest.TestCase):
                     value['i_shares_sell'],
                     value['result_values']['stoploss'],
                     value['result_values']['risk_initial'])
-            self.assertEqual(value['result_values']['risk_actual'], result)
+            self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
 
     def calculate_r_multiple(self):
         """
@@ -144,7 +143,7 @@ class TestValues(unittest.TestCase):
                     value['result_values']['i_price_buy'],
                     value['i_price_sell'],
                     value['result_values']['stoploss'])
-            self.assertEqual(value['result_values']['r_multiple'], result)
+            self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 4)
 
     def calculate_cost_total(self):
         """
@@ -156,7 +155,7 @@ class TestValues(unittest.TestCase):
                     value['result_values']['commission_buy'],
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            self.assertEqual(value['result_values']['cost_total'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_total']), float(result), 4)
 
     def test_calculate_amount_buy_simple(self):
         """
@@ -166,7 +165,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_amount_simple(
                     value['i_price_buy'],
                     value['i_shares_buy'])
-            self.assertEqual(value['result_values']['amount_buy_simple'], result)
+            self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 4)
 
     def test_calculate_amount_sell_simple(self):
         """
@@ -176,7 +175,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_amount_simple(
                     value['i_price_sell'],
                     value['i_shares_sell'])
-            self.assertEqual(value['result_values']['amount_sell_simple'], result)
+            self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 4)
     
     def test_calculate_amount_buy(self):
         """
@@ -193,7 +192,7 @@ class TestValues(unittest.TestCase):
                     Transaction.BUY,
                     value['i_tax_buy'],
                     value['i_commission_buy'])
-            self.assertEqual(value['result_values']['amount_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['amount_buy']), float(result), 4)
                     
     def test_calculate_amount_sell(self):
         """
@@ -210,7 +209,7 @@ class TestValues(unittest.TestCase):
                     Transaction.SELL,
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            self.assertEqual(value['result_values']['amount_sell'], result)
+            self.assertAlmostEqual(float(value['result_values']['amount_sell']), float(result), 4)
     
     def test_cost_transaction_buy(self):
         """
@@ -223,7 +222,7 @@ class TestValues(unittest.TestCase):
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_tax_sell'])
-            self.assertEqual(value['result_values']['cost_transaction_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 4)
 
     def test_cost_transaction_sell(self):
         """
@@ -236,7 +235,7 @@ class TestValues(unittest.TestCase):
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_tax_sell'])
-            self.assertEqual(value['result_values']['cost_transaction_sell'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 4)
 
     def test_cost_tax_buy(self):
         """
@@ -249,7 +248,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_buy'],
                     value['i_shares_buy'],
                     value['i_price_buy'])
-            self.assertEqual(value['result_values']['cost_tax_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_tax_buy']), float(result), 4)
 
     def test_cost_tax_sell(self):
         """
@@ -262,7 +261,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_sell'],
                     value['i_shares_sell'],
                     value['i_price_sell'])
-            self.assertEqual(value['result_values']['cost_tax_sell'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_tax_sell']), float(result), 4)
 
     def test_calculate_amount_with_tax_buy(self):
         """
@@ -275,7 +274,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_buy'],
                     value['i_shares_buy'],
                     value['i_price_buy'])
-            self.assertEqual(value['result_values']['amount_with_tax_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 4)
 
     def test_calculate_profit_loss(self):
         """
@@ -286,7 +285,7 @@ class TestValues(unittest.TestCase):
                     value['result_values']['amount_sell_simple'],
                     value['result_values']['amount_buy_simple'],
                     value['result_values']['cost_total'])
-            self.assertEqual(value['result_values']['profit_loss'], result)
+            self.assertAlmostEqual(float(value['result_values']['profit_loss']), float(result), 4)
 
     def test_calculate_cost_other(self):
         """
@@ -296,7 +295,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_cost_other(
                     value['result_values']['cost_total'],
                     value['result_values']['profit_loss'])
-            self.assertEqual(value['result_values']['cost_other'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 4)
 
     def test_calculate_shares_recommended(self):
         """
@@ -304,7 +303,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_shares_recommended()
-            self.assertEqual(value['result_values']['cost_other'], result)
+            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 4)
 
     def test_calculate_price_buy(self):
         """
@@ -316,7 +315,7 @@ class TestValues(unittest.TestCase):
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_commission_buy'])
-            self.assertEqual(value['result_values']['price_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['price_buy']), float(result), 4)
 
     def test_calculate_price_sell(self):
         """
@@ -328,7 +327,7 @@ class TestValues(unittest.TestCase):
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            self.assertEqual(value['result_values']['price_sell'], result)
+            self.assertAlmostEqual(float(value['result_values']['price_sell']), float(result), 4)
 
     def test_calculate_commission_buy(self):
         """
@@ -341,7 +340,7 @@ class TestValues(unittest.TestCase):
                     value['i_stock_name'],
                     value['i_price_buy'],
                     value['i_shares_buy'])
-            self.assertEqual(value['result_values']['commission_buy'], result)
+            self.assertAlmostEqual(float(value['result_values']['commission_buy']), float(result), 4)
 
     def test_calculate_commission_sell(self):
         """
@@ -354,7 +353,8 @@ class TestValues(unittest.TestCase):
                     value['i_stock_name'],
                     value['i_price_sell'],
                     value['i_shares_sell'])
-            self.assertEqual(value['result_values']['commission_sell'], result)
+            self.assertAlmostEqual(float(value['result_values']['commission_sell']), float(result), 4)
 
 if __name__ == "__main__":
-    unittest.main() 
+    getcontext().prec = 6
+    unittest.main()   
