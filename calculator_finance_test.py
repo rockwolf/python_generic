@@ -11,6 +11,7 @@ import unittest
 from decimal import Decimal, getcontext
 from function import *
 from modules.constant import *
+
 class TestValues(unittest.TestCase):
     """
         Test the calculations with an example.
