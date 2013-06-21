@@ -24,7 +24,8 @@ class TestValues(unittest.TestCase):
         'i_date_sell':string_to_date("2013-06-12"),
         'i_account_from':'assets:current_assets:binb00', #Note: Get account_id from T_ACCOUNT for final insert
         'i_account_to':'assets:stock:ebr.devg',
-        'i_amount':Decimal(2513.5),
+        'i_amount_buy':Decimal(2513.5),
+        'i_amount_sell':Decimal(2486.50),
         'i_comment':'test comment',
         'i_stock_name':'devg',
         'i_stock_description':'Devgen N.V.',
@@ -94,8 +95,8 @@ class TestValues(unittest.TestCase):
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_commission_buy'],
-                    value['i_risk'],
-                    value['pool'])
+                    value['i_risk_input'],
+                    value['i_pool'])
             self.assertEqual(value['result_values']['stoploss'], result)
 
     def test_calculate_risk_input(self):
@@ -104,8 +105,8 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_risk_input(
-                    value['pool'],
-                    value['risk'])
+                    value['i_pool'],
+                    value['i_risk_input'])
             self.assertEqual(value['result_values']['risk_input'], result)
 
     def calculate_risk_initial(self):
@@ -242,7 +243,7 @@ class TestValues(unittest.TestCase):
             Test cost_tax for buying
         """
         for value in self.test_values:
-            result = calculator_finance.cost_tax_buy(
+            result = calculator_finance.cost_tax(
                     Transaction.BUY,
                     value['i_amount_buy'],
                     value['i_commission_buy'],
@@ -255,7 +256,7 @@ class TestValues(unittest.TestCase):
             Test cost_tax for selling
         """
         for value in self.test_values:
-            result = calculator_finance.cost_tax_sell(
+            result = calculator_finance.cost_tax(
                     Transaction.SELL,
                     value['i_amount_sell'],
                     value['i_commission_sell'],
@@ -284,7 +285,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_profit_loss(
                     value['result_values']['amount_sell_simple'],
                     value['result_values']['amount_buy_simple'],
-                    value['result_values']['total_cost'])
+                    value['result_values']['cost_total'])
             self.assertEqual(value['result_values']['profit_loss'], result)
 
     def test_calculate_cost_other(self):
@@ -293,9 +294,9 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_cost_other(
-                    values['result_values']['cost_total'],
-                    values['result_values']['profit_loss'])
-            self.assertEqual(values['result_values']['cost_other'], result)
+                    value['result_values']['cost_total'],
+                    value['result_values']['profit_loss'])
+            self.assertEqual(value['result_values']['cost_other'], result)
 
     def test_calculate_shares_recommended(self):
         """
@@ -303,7 +304,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_shares_recommended()
-            self.assertEqual(values['result_values']['cost_other'], result)
+            self.assertEqual(value['result_values']['cost_other'], result)
 
     def test_calculate_price_buy(self):
         """
@@ -311,12 +312,11 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
-                    Transaction.BUY,
                     value['i_amount_buy'],
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_commission_buy'])
-            self.assertEqual(values['result_values']['price_buy'], result)
+            self.assertEqual(value['result_values']['price_buy'], result)
 
     def test_calculate_price_sell(self):
         """
@@ -324,12 +324,11 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
-                    Transaction.SELL,
                     value['i_amount_sell'],
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            self.assertEqual(values['result_values']['price_sell'], result)
+            self.assertEqual(value['result_values']['price_sell'], result)
 
     def test_calculate_commission_buy(self):
         """
@@ -338,10 +337,11 @@ class TestValues(unittest.TestCase):
         for value in self.test_values:
             result = calculator_finance.calculate_commission(
                     value['i_account_to'],
-                    value['i_market'],
-                    value['i_commodity'],
-                    value['i_price_buy'])
-            self.assertEqual(values['result_values']['commission_buy'], result)
+                    value['i_market_name'],
+                    value['i_stock_name'],
+                    value['i_price_buy'],
+                    value['i_shares_buy'])
+            self.assertEqual(value['result_values']['commission_buy'], result)
 
     def test_calculate_commission_sell(self):
         """
@@ -350,10 +350,11 @@ class TestValues(unittest.TestCase):
         for value in self.test_values:
             result = calculator_finance.calculate_commission(
                     value['i_account_to'],
-                    value['i_market'],
-                    value['i_commodity'],
-                    value['i_price_sell'])
-            self.assertEqual(values['result_values']['commission_sell'], result)
+                    value['i_market_name'],
+                    value['i_stock_name'],
+                    value['i_price_sell'],
+                    value['i_shares_sell'])
+            self.assertEqual(value['result_values']['commission_sell'], result)
 
 if __name__ == "__main__":
     unittest.main() 
