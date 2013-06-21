@@ -179,7 +179,7 @@ def calculate_stoploss(price_buy, shares_buy, tax_buy, commission_buy, i_risk, p
         Calculates the stoploss.
     """
     var_T = ((i_risk * price_buy) - calculate_amount_simple(price_buy, shares_buy)) - commission_buy
-    var_N = shares_buy * (tax_buy - (1.0))
+    var_N = shares_buy * (tax_buy - Decimal(1.0))
     return  var_T / var_N
         
 def calculate_risk_input(i_pool, i_risk):
