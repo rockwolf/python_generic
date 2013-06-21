@@ -9,6 +9,7 @@ Unit test for calculator_finance.py
 import calculator_finance
 import unittest
 from decimal import Decimal
+from function import *
 from modules.constant import *
 
 class TestValues(unittest.TestCase):
@@ -355,4 +356,4 @@ class TestValues(unittest.TestCase):
             self.assertEqual(values['result_values']['commission_sell'], result)
 
 if __name__ == "__main__":
-    unittest.main()   
+    unittest.main() 
