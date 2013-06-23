@@ -73,7 +73,13 @@ class TestValues(unittest.TestCase):
             ,'commission_sell':Decimal(7.25)
         } 
     })
-    
+   
+    def run(self):
+        """
+           Run the unit tests. 
+        """
+        unittest.main()
+
     def test_calculate_percentage_of(self):
         """
             Test calculate_percentage_of

@@ -274,11 +274,11 @@ def calculate_profit_loss(amount_sell_simple, amount_buy_simple, total_cost):
     """
     return amount_sell_simple - amount_buy_simple - total_cost
 
-def calculate_cost_other(total_cost, profit_loss):
+def calculate_cost_other(cost_total, profit_loss):
     """
         Calculates others costs based on the difference that remains.
     """
-    diff_cost_profit = total_cost - profit_loss
+    diff_cost_profit = cost_total - profit_loss
     if diff_cost_profit > DEFAULT_DECIMAL:
         result = diff_cost_profit
     else:
@@ -291,12 +291,17 @@ def calculate_shares_recommended():
     """
     return -1
 
-def calculate_price(amount, shares, tax, commission):
+def calculate_price(transactionid, amount, shares, tax, commission):
     """
-        Calculates the price.
+        Calculates the price when buying or selling
     """
-    var_T = amount + commission
-    var_N = (Decimal(1.0) - tax) * shares
+    if transactionid == Transaction.SELL:
+        var_T = amount + commission
+        var_N = (Decimal(1.0) - tax) * shares
+    else:
+        var_T = amount - commission
+        var_N = (Decimal(1.0) + tax) * shares
+        
     return var_T / var_N
 
 ## Commission calculations ##
@@ -305,18 +310,17 @@ def calculate_commission(account, market, commodity, price, shares):
         Calculate the correct commission.
     """
     if account.lower() == "binb00":
-        result = get_binb00_commission(market)
+        result = get_binb00_commission(market, price, shares)
     elif account.lower() == "whsi00":
         result = get_whsi00_commission(market, commodity, price, shares)
     return result
 
-def get_binb00_commission(market):
+def get_binb00_commission(market, price, shares):
     """
         Get the correct commission for binb00.
     """
-    if amount_simple <= Decimal(2500.0):
-        get_bin00_commission_value(Decimal(2500.0), market)
-    return result
+    amount_simple = self.calculate_amount_simple(price, shares)
+    return get_bin00_commission_value(amount_simple, market)
 
 def get_binb00_commission_index(market):
     """
@@ -341,20 +345,20 @@ def get_binb00_commission_index(market):
         result = -1
     return result
 
-def get_binb00_commission_value(threshhold, market):
+def get_binb00_commission_value(amount_simple, market):
     """
         Gets the binb00 commission for the given threshhold value.
     """
     index = get_binb00_commission_index(market)
-    if threshhold == Decimal(2500.0):
+    if amount_simple <= Decimal(2500.0):
         result = binb00_commissions["2500"][index]
-    elif (threshhold > Decimal(2500.0)) and (threshhold <= Decimal(5000.0)):
+    elif (amount_simple > Decimal(2500.0)) and (amount_simple <= Decimal(5000.0)):
         result = binb00_commissions["5000"][index]
-    elif (threshhold > Decimal(5000.0)) and (threshhold <= Decimal(25000.0)):
+    elif (amount_simple > Decimal(5000.0)) and (amount_simple <= Decimal(25000.0)):
         result = binb00_commissions["25000"][index]
-    elif (threshhold > Decimal(25000.0)) and (threshhold <= Decimal(50000.0)):
+    elif (amount_simple > Decimal(25000.0)) and (amount_simple <= Decimal(50000.0)):
         result = binb00_commissions["50000"][index]
-    elif (threshhold > Decimal(5000.0)):
+    elif (amount_simple > Decimal(5000.0)):
         result = binb00_commissions["50000+"][index]
         #TODO: expand for options?
     else:
