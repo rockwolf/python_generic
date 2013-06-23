@@ -179,7 +179,7 @@ def calculate_stoploss(price_buy, shares_buy, tax_buy, commission_buy, i_risk, p
         Calculates the stoploss.
     """
     var_T = ((i_risk * price_buy) - calculate_amount_simple(price_buy, shares_buy)) - commission_buy
-    var_N = shares_buy * (tax_buy - (1.0))
+    var_N = shares_buy * (tax_buy - Decimal(1.0))
     return  var_T / var_N
         
 def calculate_risk_input(i_pool, i_risk):
@@ -253,7 +253,7 @@ def cost_tax(transactionid, amount, commission, shares, price):
         shares * price * tax_percentage for buy or sell
     """
     if transactionid == Transaction.SELL:
-        result = amount - commission - shares * price
+        result = -amount - commission + shares * price
     else:
         result = shares * price - amount - commission
     return result
@@ -265,7 +265,7 @@ def calculate_amount_with_tax(transactionid, amount, commission, shares, price):
     if transactionid == Transaction.SELL:
         result = amount - commission
     else:
-        result = shares * price - amount - commission
+        result = shares * price - commission
     return result
 
 def calculate_profit_loss(amount_sell_simple, amount_buy_simple, total_cost):
@@ -309,6 +309,7 @@ def calculate_commission(account, market, commodity, price, shares):
     """
         Calculate the correct commission.
     """
+    result = DEFAULT_DECIMAL
     if account.lower() == "binb00":
         result = get_binb00_commission(market, price, shares)
     elif account.lower() == "whsi00":
