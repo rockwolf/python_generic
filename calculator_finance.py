@@ -258,7 +258,7 @@ def cost_tax(transactionid, amount, commission, shares, price):
     if transactionid == Transaction.SELL:
         result = -amount - commission + shares * price
     else:
-        result = shares * price - amount - commission
+        result = amount - shares * price - commission
     return result
 
 def calculate_amount_with_tax(tax, shares, price):
