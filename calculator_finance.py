@@ -233,10 +233,13 @@ def calculate_amount(price, shares, transactionid, tax, commission):
     """
         Calculates the amount, including tax and commission.
     """
-    return (
-        calculate_amount_simple(price, shares) +
-        cost_transaction(transactionid, price, shares, tax, commission)
-    )
+    # NOTE:
+    # AMT = SP + SPT + C (buy)
+    # AMT = SP - SPT - C (buy)
+    if transactionid == Transaction.BUY:
+        return shares * price + shares * price * tax + commission
+    else:
+        return shares * price - shares * price * tax - commission
 
 def cost_transaction(transactionid, price, shares, tax, commission):
     """
@@ -245,7 +248,7 @@ def cost_transaction(transactionid, price, shares, tax, commission):
     if transactionid == Transaction.SELL:
         result = (price * shares * (Decimal(1.0) - tax)) - commission
     else:
-        result = (price * shares * (1 + tax)) + commission
+        result = (price * shares * (Decimal(1.0) + tax)) + commission
     return result
     
 def cost_tax(transactionid, amount, commission, shares, price):
@@ -258,15 +261,11 @@ def cost_tax(transactionid, amount, commission, shares, price):
         result = shares * price - amount - commission
     return result
 
-def calculate_amount_with_tax(transactionid, amount, commission, shares, price):
+def calculate_amount_with_tax(tax, shares, price):
     """
         Calculates the amount (buy/sell) with tax included, but not the commission.
     """
-    if transactionid == Transaction.SELL:
-        result = amount - commission
-    else:
-        result = shares * price - commission
-    return result
+    return shares * price * ( Decimal(1.0) + tax)
 
 def calculate_profit_loss(amount_sell_simple, amount_buy_simple, total_cost):
     """
@@ -291,13 +290,18 @@ def calculate_shares_recommended():
     """
     return -1
 
-def calculate_price(amount, shares, tax, commission):
+def calculate_price(transactionid, amount, shares, tax, commission):
     """
         Calculates the price.
     """
-    var_T = amount + commission
-    var_N = (Decimal(1.0) - tax) * shares
-    return var_T / var_N
+    if transactionid == Transaction.SELL:
+        var_T = amount + commission
+        var_N = (Decimal(1.0) - tax) * shares
+        return var_T / var_N
+    else:
+        var_T = amount - commission
+        var_N = (Decimal(1.0) + tax) * shares
+        return var_T / var_N
 
 ## Commission calculations ##
 def calculate_commission(account, market, commodity, price, shares):

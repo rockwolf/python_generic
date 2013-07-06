@@ -18,28 +18,28 @@ class TestValues(unittest.TestCase):
     """
     test_values = [] 
     # Profit - long
-    ## buy 100 devg at 25, sell at 30
+    ## buy 99 devg at 25, sell at 30
     test_values.append({
         'i_date_buy':string_to_date("2013-06-12"),
         'i_date_sell':string_to_date("2013-06-12"),
         'i_account_from':'assets:current_assets:binb00', #Note: Get account_id from T_ACCOUNT for final insert
         'i_account_to':'assets:stock:ebr.devg',
-        'i_amount_buy':Decimal(2513.5),
-        'i_amount_sell':Decimal(2486.50),
+        'i_amount_buy':Decimal(2488.44),
+        'i_amount_sell':Decimal(2955.33),
         'i_comment':'test comment',
         'i_stock_name':'devg',
         'i_stock_description':'Devgen N.V.',
         'i_market_name':'ebr',
         'i_market_description':'Europe Brussels',
-        'i_shares_buy':100,
-        'i_shares_sell':100,
+        'i_shares_buy':Decimal(99.0),
+        'i_shares_sell':Decimal(99.0),
         'i_price_buy':Decimal(25.0),
         'i_price_sell':Decimal(30.0),
         'i_commission_buy':Decimal(7.25),
         'i_commission_sell':Decimal(7.25),
-        'i_tax_buy':Decimal(0.25),
-        'i_tax_sell':Decimal(0.25),
-        'i_risk_input':Decimal(2.0),
+        'i_tax_buy':Decimal(0.0025),
+        'i_tax_sell':Decimal(0.0025),
+        'i_risk_input':Decimal(0.02),
         'i_currency_from':'EUR', #Note: Get currency_id from T_CURRENCY for final insert
         'i_currency_to':'EUR', #Note: Get currency_id from T_CURRENCY for final insert
         'i_exchange_rate':Decimal(1.0),
@@ -50,25 +50,25 @@ class TestValues(unittest.TestCase):
         'i_periodic_end':string_to_date("1900-01-01"),
         'i_pool':Decimal(50000),
         'result_values': {
-            'stoploss': DEFAULT_DECIMAL
-            ,'risk_input': DEFAULT_DECIMAL
-            ,'risk_initial': DEFAULT_DECIMAL
-            ,'risk_actual': DEFAULT_DECIMAL
-            ,'r_multiple': DEFAULT_DECIMAL
-            ,'cost_total': DEFAULT_DECIMAL
-            ,'amount_buy_simple':Decimal(2500.0)
-            ,'amount_sell_simple':Decimal(3000.0)
-            ,'amount_buy':Decimal(2513.5)
-            ,'amount_sell':Decimal(2486.50)
-            ,'cost_transaction_buy': DEFAULT_DECIMAL
-            ,'cost_transaction_sell': DEFAULT_DECIMAL
-            ,'cost_tax_buy': DEFAULT_DECIMAL
-            ,'cost_tax_sell': DEFAULT_DECIMAL
-            ,'amount_with_tax_buy': DEFAULT_DECIMAL
-            ,'amount_with_tax_sell': DEFAULT_DECIMAL
-            ,'profit_loss': DEFAULT_DECIMAL
-            ,'cost_other': DEFAULT_DECIMAL
-            ,'shares_recommended': DEFAULT_DECIMAL
+            'stoploss': Decimal(7.28)
+            ,'risk_input': Decimal(0.002)
+            ,'risk_initial': Decimal(2500)
+            ,'risk_actual': Decimal(1754.28)
+            ,'r_multiple': Decimal(0.28)
+            ,'cost_total': Decimal(28.12)
+            ,'amount_buy_simple':Decimal(2475.0)
+            ,'amount_sell_simple':Decimal(2970.0)
+            ,'amount_buy':Decimal(2488.44)
+            ,'amount_sell':Decimal(2955.33)
+            ,'cost_transaction_buy': Decimal(13.44)
+            ,'cost_transaction_sell': Decimal(14.68)
+            ,'cost_tax_buy': Decimal(4.21)
+            ,'cost_tax_sell': Decimal(5.05)
+            ,'amount_with_tax_buy': Decimal(2481.19)
+            ,'amount_with_tax_sell': Decimal(2977.42)
+            ,'profit_loss': Decimal(494.11)
+            ,'cost_other': Decimal(0.0)
+            ,'shares_recommended': Decimal(99.0)
             ,'price_buy':Decimal(25.0)
             ,'price_sell':Decimal(30.0)
             ,'commission_buy':Decimal(7.25)
@@ -184,8 +184,8 @@ class TestValues(unittest.TestCase):
         """
         # AMT = SP + SPT + C
         #     = SP * (1 + T) + C
-        #     = 100 * 25.0 * (1 + 0.0025) + 7.25
-        #     = 2513.5
+        #     = 99 * 25.0 * (1 + 0.0025) + 7.25
+        #     = 2488.4375
         for value in self.test_values:
             result = calculator_finance.calculate_amount(
                     value['i_price_buy'],
@@ -201,8 +201,8 @@ class TestValues(unittest.TestCase):
         """
         # AMT = SP - SPT - C
         #     = SP * (1 - T) - C
-        #     = 100 * 25.0 * (1 - 0.0025) - 7.25
-        #     = 2486.50
+        #     = 99 * 30.0 * (1 - 0.0025) - 7.25
+        #     = 2955.3250
         for value in self.test_values:
             result = calculator_finance.calculate_amount(
                     value['i_price_sell'],
@@ -270,12 +270,22 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_amount_with_tax(
-                    Transaction.BUY,
-                    value['i_amount_buy'],
-                    value['i_commission_buy'],
+                    value['i_tax_buy'],
                     value['i_shares_buy'],
                     value['i_price_buy'])
             self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 4)
+
+    def test_calculate_amount_with_tax_sell(self):
+        """
+            Test calculate_amount_with_tax for selling
+        """
+        for value in self.test_values:
+            result = calculator_finance.calculate_amount_with_tax(
+                    value['i_tax_sell'],
+                    value['i_shares_sell'],
+                    value['i_price_sell'])
+            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_sell']), float(result), 4)
+
 
     def test_calculate_profit_loss(self):
         """
@@ -312,6 +322,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
+                    Transaction.BUY,
                     value['i_amount_buy'],
                     value['i_shares_buy'],
                     value['i_tax_buy'],
@@ -324,6 +335,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
+                    Transaction.SELL,
                     value['i_amount_sell'],
                     value['i_shares_sell'],
                     value['i_tax_sell'],
