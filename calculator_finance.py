@@ -296,21 +296,11 @@ def calculate_price(transactionid, amount, shares, tax, commission):
     """
     if transactionid == Transaction.SELL:
         var_T = amount + commission
-<<<<<<< HEAD
         var_N = (Decimal(1.0) - tax) * shares
     else:
         var_T = amount - commission
         var_N = (Decimal(1.0) + tax) * shares
-        
     return var_T / var_N
-=======
-        var_N = ((Decimal(1.0) - tax) * shares)
-        return var_T / var_N
-    else:
-        var_T = amount - commission
-        var_N = ((Decimal(1.0) + tax) * shares)
-        return var_T / var_N
->>>>>>> f99d2d6883c1c1076a25d9197e2fe2ce378ca191
 
 ## Commission calculations ##
 def calculate_commission(account, market, commodity, price, shares):
