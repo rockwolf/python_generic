@@ -8,6 +8,8 @@ A file with financial calculations
 
 from modules.constant import * 
 from decimal import Decimal
+from database.Databaseaccess import Databaseaccess
+from modules.config import ConfigParser
 
 ## Market definitions ##
 # binb00
