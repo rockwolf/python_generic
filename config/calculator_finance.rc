@@ -1,0 +1,9 @@
+### This is the main configuration file for the calculator_finance library.
+### Please keep everything in this file intact and change only the options
+### that need to be changed.
+
+[database]
+host = 'testdb'
+name = 'finance'
+user = 'rockwolf'
+password = ''
