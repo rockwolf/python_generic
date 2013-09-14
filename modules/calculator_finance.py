@@ -6,10 +6,10 @@ See LICENSE file for copyright and license details.
 A file with financial calculations
 """
 
-from modules.constant import * 
+#from modules.constant import * 
 from decimal import Decimal
-from database.Databaseaccess import Databaseaccess
-from modules.config import ConfigParser
+#from database import DatabaseAccess
+#from modules.config import ConfigParser
 
 ## Market definitions ##
 # binb00
