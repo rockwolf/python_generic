@@ -6,7 +6,7 @@ See LICENSE file for copyright and license details.
 A file with financial calculations
 """
 
-#from modules.constant import * 
+from modules.constant import * 
 from decimal import Decimal
 #from database import DatabaseAccess
 #from modules.config import ConfigParser
