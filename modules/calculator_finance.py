@@ -8,6 +8,7 @@ A file with financial calculations
 
 from modules.constant import * 
 from decimal import Decimal
+from math import floor
 #from database import DatabaseAccess
 #from modules.config import ConfigParser
 
@@ -286,11 +287,13 @@ def calculate_cost_other(cost_total, profit_loss):
         result = DEFAULT_DECIMAL
     return result
 
-def calculate_shares_recommended():
+def calculate_shares_recommended(pool, risk, commission, tax, price):
     """
-        Calculate the amount of shares you can buy.
+        Calculate the recommended amount of shares you can buy.
     """
-    return -1
+    var_T = pool * risk
+    var_N = price * (1 + tax)
+    return  floor(var_T / var_N)
 
 def calculate_price(transactionid, amount, shares, tax, commission):
     """
