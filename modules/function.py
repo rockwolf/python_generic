@@ -2,6 +2,7 @@
 See LICENSE file for copyright and license details.
 """
 from datetime import datetime
+from .constant import Align
 
 """ A file with functions that can be used everywhere """
 
@@ -20,7 +21,7 @@ def string_to_date(date_string):
     date_string = date_string[0]
     return string_to_datetime(date_string, '%Y-%m-%d')
     
-def print_in_columns(lists):
+def print_in_columns(lists, alignment=Align.CENTER):
     """
         Print data values in a nice centered layout.
         Input should be a list of lists with
@@ -30,7 +31,7 @@ def print_in_columns(lists):
     """
     # TODO: make 30 a variable
     for values in lists:
-        print('{: ^30}'.format(' '.join(str(value) for value in values)))
+        print(alignment.format(' '.join(str(value) for value in values)))
     
 def print_separator(linechar='-', length=80):
     """
