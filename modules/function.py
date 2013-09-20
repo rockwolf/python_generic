@@ -20,7 +20,7 @@ def string_to_date(date_string):
     date_string = date_string[0]
     return string_to_datetime(date_string, '%Y-%m-%d')
     
-def print_in_columns(values):
+def print_in_columns(lists):
     """
         Print data values in a nice centered layout.
         Input should be a list of lists with
@@ -29,9 +29,10 @@ def print_in_columns(values):
                 ,[col_1_value1, col_2_value1]]
     """
     # TODO: make 30 a variable
-    print('{:x^30}'.format(''.join(str(value) for value in values)))
+    for values in lists:
+        print('{: ^30}'.format(' '.join(str(value) for value in values)))
     
-def print_separator(self, linechar='-', length=80):
+def print_separator(linechar='-', length=80):
     """
         Print nice divider line.
     """
