@@ -35,5 +35,5 @@ def print_separator(self, linechar='-', length=80):
     """
         Print nice divider line.
     """
-    print_inn_colums([[linechar*length]])
+    print_in_columns([[linechar*length]])
 
