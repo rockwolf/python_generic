@@ -19,4 +19,15 @@ def string_to_date(date_string):
     date_string = date_string.split(' ')
     date_string = date_string[0]
     return string_to_datetime(date_string, '%Y-%m-%d')
+    
+def print_in_columns(values):
+    """
+        Print data values in a nice centered layout.
+        Input should be a list of lists with
+        column values to print.
+        e.g.: [[col_1_value0, col_2_value0]
+                ,[col_1_value1, col_2_value1]]
+    """
+    # TODO: make 30 a variable
+    print('{:x^30}'.format(''.join(str(value) for value in values)))
 
