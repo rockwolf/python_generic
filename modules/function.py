@@ -30,4 +30,10 @@ def print_in_columns(values):
     """
     # TODO: make 30 a variable
     print('{:x^30}'.format(''.join(str(value) for value in values)))
+    
+def print_separator(self, linechar='-', length=80):
+    """
+        Print nice divider line.
+    """
+    print_inn_colums([[linechar*length]])
 
