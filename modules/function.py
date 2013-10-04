@@ -45,7 +45,7 @@ def dict_to_list_sorted(a_dict):
         with "key: value"
     """
     result = []
-    kitems = a_dict.keys()
+    kitems = list(a_dict.keys())
     kitems.sort()
     for key in kitems:
         result.append(": ".join((key, str(a_dict[key]))))
