@@ -39,3 +39,14 @@ def print_separator(linechar='-', length=80):
     """
     print_in_columns([[linechar*length]])
 
+def dict_to_list_sorted(self, a_dict):
+    """
+        Sort a dictionary on keys and return a list of strings
+        with "key: value"
+    """
+    result = []
+    kitems = a_dict.keys()
+    kitems.sort()
+    for key in kitems:
+        result.append(": ".join((key, str(a_dict[key])))
+    return result
