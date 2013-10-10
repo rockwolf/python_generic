@@ -9,8 +9,8 @@ Unit test for calculator_finance.py
 import calculator_finance
 import unittest
 from decimal import Decimal, getcontext
-from function import *
-from modules.constant import *
+from generic.modules.function import *
+from generic.modules.constant import *
 
 class TestValues(unittest.TestCase):
     """
