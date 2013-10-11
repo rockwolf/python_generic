@@ -20,6 +20,7 @@ class TestValues(unittest.TestCase):
     test_values = [] 
     # Profit - long
     ## buy 100 devg at 25, sell at 30
+    # TODO: enter data from test1 ods
     test_values.append({
         'i_date_buy':string_to_date("2013-06-12"),
         'i_date_sell':string_to_date("2013-06-12"),
@@ -41,9 +42,10 @@ class TestValues(unittest.TestCase):
         'i_tax_buy':Decimal(0.25),
         'i_tax_sell':Decimal(0.25),
         'i_risk_input':Decimal(2.0),
-        'i_currency_from':'EUR', #Note: Get currency_id from T_CURRENCY for final insert
-        'i_currency_to':'EUR', #Note: Get currency_id from T_CURRENCY for final insert
-        'i_exchange_rate':Decimal(1.0),
+        'i_currency_from':'USD',
+        'i_currency_to':'EUR',
+        'i_exchange_rate_buy':Decimal(0.74),
+        'i_exchange_rate_sell':Decimal(0.74),
         'i_automatic_flag':0,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':0,
@@ -72,8 +74,11 @@ class TestValues(unittest.TestCase):
             ,'shares_recommended': DEFAULT_DECIMAL
             ,'price_buy':Decimal(25.0)
             ,'price_sell':Decimal(30.0)
-            ,'commission_buy':Decimal(7.25)
-            ,'commission_sell':Decimal(7.25)
+            ,'price_buy_orig':Decimal(25.0)
+            ,'price_sell_orig':Decimal(30.0)
+            ,'stoploss_orig':DEFAULT_DECIMAL
+            ,'commission_buy':Decimal(3)
+            ,'commission_sell':Decimal(3)
         } 
     })
    
