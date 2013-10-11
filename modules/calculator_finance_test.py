@@ -9,8 +9,9 @@ Unit test for calculator_finance.py
 import calculator_finance
 import unittest
 from decimal import Decimal, getcontext
-from generic.modules.function import *
-from generic.modules.constant import *
+from function import *
+from modules.constant import *
+import sys
 
 class TestValues(unittest.TestCase):
     """
@@ -76,12 +77,6 @@ class TestValues(unittest.TestCase):
         } 
     })
    
-    def run(self):
-        """
-           Run the unit tests. 
-        """
-        unittest.main()
-
     def test_calculate_percentage_of(self):
         """
             Test calculate_percentage_of
@@ -276,9 +271,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_amount_with_tax(
-                    Transaction.BUY,
-                    value['i_amount_buy'],
-                    value['i_commission_buy'],
+                    value['i_tax_buy'],
                     value['i_shares_buy'],
                     value['i_price_buy'])
             self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 4)
@@ -309,8 +302,14 @@ class TestValues(unittest.TestCase):
             Test calculate_shares_recommended
         """
         for value in self.test_values:
-            result = calculator_finance.calculate_shares_recommended()
-            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 4)
+            result = calculator_finance.calculate_shares_recommended(
+                    value['i_pool'],
+                    value['i_risk_input'],
+                    value['i_commission_buy'],
+                    value['i_tax_buy'],
+                    value['i_price_buy']
+                    )
+            self.assertAlmostEqual(float(value['result_values']['shares_recommended']), float(result), 4)
 
     def test_calculate_price_buy(self):
         """
@@ -318,6 +317,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
+                    Transaction.BUY,
                     value['i_amount_buy'],
                     value['i_shares_buy'],
                     value['i_tax_buy'],
@@ -330,6 +330,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_price(
+                    Transaction.SELL,
                     value['i_amount_sell'],
                     value['i_shares_sell'],
                     value['i_tax_sell'],
@@ -363,5 +364,19 @@ class TestValues(unittest.TestCase):
             self.assertAlmostEqual(float(value['result_values']['commission_sell']), float(result), 4)
 
 if __name__ == "__main__":
+    sys.path.append('modules')
     getcontext().prec = 6
-    unittest.main()   
+    #test = TestValues()
+    #test.run()
+    unittest.main()
+
+#def run(self):
+#        """
+#           Run the unit tests. 
+#        """
+#        try:
+#            print("test calc_..._test.py")
+#            unittest.main()
+#            print("test calc_..._test.py 2")
+#        except Exception as ex:
+#            print("Error running unittest: ", ex)
