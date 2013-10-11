@@ -22,30 +22,30 @@ class TestValues(unittest.TestCase):
     ## buy 100 devg at 25, sell at 30
     # TODO: enter data from test1 ods
     test_values.append({
-        'i_date_buy':string_to_date("2013-06-12"),
-        'i_date_sell':string_to_date("2013-06-12"),
-        'i_account_from':'assets:current_assets:binb00', #Note: Get account_id from T_ACCOUNT for final insert
-        'i_account_to':'assets:stock:ebr.devg',
-        'i_amount_buy':Decimal(2513.5),
-        'i_amount_sell':Decimal(2486.50),
-        'i_comment':'test comment',
-        'i_stock_name':'devg',
-        'i_stock_description':'Devgen N.V.',
         'i_market_name':'ebr',
         'i_market_description':'Europe Brussels',
-        'i_shares_buy':100,
-        'i_shares_sell':100,
-        'i_price_buy':Decimal(25.0),
-        'i_price_sell':Decimal(30.0),
-        'i_commission_buy':Decimal(7.25),
-        'i_commission_sell':Decimal(7.25),
-        'i_tax_buy':Decimal(0.25),
-        'i_tax_sell':Decimal(0.25),
+        'i_stock_name':'devg',
+        'i_stock_description':'Devgen N.V.',
+        'i_account_from':'assets:current_assets:whsi00', #Note: Get account_id from T_ACCOUNT for final insert
+        'i_account_to':'assets:stock:ebr.devg',
+        'i_date_buy':string_to_date("2013-10-11"),
+        'i_date_sell':string_to_date("2013-10-09"),
+        'i_price_buy':Decimal(13.93),
+        'i_price_sell':Decimal(13.7),
+        'i_shares_buy':550,
+        'i_shares_sell':550,
+        'i_amount_buy':DEFAULT_DECIMAL,
+        'i_amount_sell':Decimal(7536.69),
+        'i_comment':'test comment',
+        'i_commission_buy':Decimal(3.0),
+        'i_commission_sell':Decimal(3.0),
+        'i_tax_buy':Decimal(0.00),
+        'i_tax_sell':Decimal(0.00),
         'i_risk_input':Decimal(2.0),
         'i_currency_from':'USD',
         'i_currency_to':'EUR',
-        'i_exchange_rate_buy':Decimal(0.74),
-        'i_exchange_rate_sell':Decimal(0.74),
+        'i_exchange_rate_buy':Decimal(0.737191301),
+        'i_exchange_rate_sell':Decimal(0.740411669),
         'i_automatic_flag':0,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':0,
@@ -59,8 +59,8 @@ class TestValues(unittest.TestCase):
             ,'risk_actual': DEFAULT_DECIMAL
             ,'r_multiple': DEFAULT_DECIMAL
             ,'cost_total': DEFAULT_DECIMAL
-            ,'amount_buy_simple':Decimal(2500.0)
-            ,'amount_sell_simple':Decimal(3000.0)
+            ,'amount_buy_simple':Decimal(7663.1)
+            ,'amount_sell_simple':Decimal(7533.69)
             ,'amount_buy':Decimal(2513.5)
             ,'amount_sell':Decimal(2486.50)
             ,'cost_transaction_buy': DEFAULT_DECIMAL
