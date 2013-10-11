@@ -192,14 +192,18 @@ def calculate_risk_input(i_pool, i_risk):
     """
     return i_risk/Decimal(100.0) * i_pool
 
-def calculate_risk_initial(price_buy, shares_buy, stoploss):
+def calculate_risk_initial(price_buy, price_sell, shares_buy, shares_sell, stoploss, long_bool):
     """
         Calculates the initial risk.
         This is the risk we will take if our stoploss is reached.
         This should be equal to the risk_input if everything was
         correctly calculated.
     """
-    return (price_buy * shares_buy) - (stoploss * shares_buy)
+    #TODO: this is incorrect for shorting, because SL > price_buy
+    if long_bool:
+        return (price_buy * shares_buy) - (stoploss * shares_buy)
+    else:
+        return (stoploss * shares_sell) - (price_sell * shares_sell)
 
 def calculate_risk_actual(price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial):
     """
@@ -212,13 +216,11 @@ def calculate_risk_actual(price_buy, shares_buy, price_sell, shares_sell, stoplo
         result = risk_initial
     return result
 
-def calculate_r_multiple(price_buy, price_sell, stoploss):
+def calculate_r_multiple(profit_loss, risk_initial):
     """ 
         Function to calculate R-multiple.
     """
-    var_T = price_sell - price_buy
-    var_N = price_buy - stoploss
-    return var_T / var_N
+    return profit_loss / risk_initial
 
 def calculate_cost_total(tax_buy, commission_buy, tax_sell, commission_sell):
     """
