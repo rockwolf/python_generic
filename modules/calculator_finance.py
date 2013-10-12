@@ -249,12 +249,9 @@ def calculate_amount(price, shares, transactionid, tax, commission):
 def cost_transaction(transactionid, price, shares, tax, commission):
     """
         Cost of transaction (tax and commission)
+        price * shares * tax + commission
     """
-    if transactionid == Transaction.SELL:
-        result = (price * shares * (Decimal(1.0) - tax)) - commission
-    else:
-        result = (price * shares * (Decimal(1.0) + tax)) + commission
-    return result
+    return (price * shares * tax) + commission
     
 def cost_tax(transactionid, amount, commission, shares, price):
     """

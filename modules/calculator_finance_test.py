@@ -35,7 +35,7 @@ class TestValues(unittest.TestCase):
         'i_shares_buy':550,
         'i_shares_sell':550,
         'i_amount_buy':DEFAULT_DECIMAL,
-        'i_amount_sell':Decimal(7536.69),
+        'i_amount_sell':Decimal(7533.69),
         'i_comment':'test comment',
         'i_commission_buy':Decimal(3.0),
         'i_commission_sell':Decimal(3.0),
@@ -53,32 +53,34 @@ class TestValues(unittest.TestCase):
         'i_periodic_end':string_to_date("1900-01-01"),
         'i_pool':Decimal(50000),
         'result_values': {
-            'stoploss': DEFAULT_DECIMAL
-            ,'risk_input': DEFAULT_DECIMAL
-            ,'risk_initial': DEFAULT_DECIMAL
-            ,'risk_actual': DEFAULT_DECIMAL
-            ,'r_multiple': DEFAULT_DECIMAL
-            ,'cost_total': DEFAULT_DECIMAL
+            'stoploss': Decimal(13.96)
+            ,'stoploss_orig': Decimal(18.94)
+            ,'risk_input': Decimal(2.0)
+            ,'risk_initial': Decimal(144.31)
+            ,'risk_initial_percent': Decimal(1.91)
+            ,'risk_actual': Decimal(129.41)
+            ,'risk_actual_percent': Decimal(1.71)
+            ,'r_multiple': Decimal(-0.94)
             ,'amount_buy_simple':Decimal(7663.1)
             ,'amount_sell_simple':Decimal(7533.69)
-            ,'amount_buy':Decimal(2513.5)
-            ,'amount_sell':Decimal(2486.50)
-            ,'cost_transaction_buy': DEFAULT_DECIMAL
-            ,'cost_transaction_sell': DEFAULT_DECIMAL
+            ,'amount_buy':Decimal(7666.1)
+            ,'amount_sell':Decimal(7530.69)
+            ,'cost_transaction_buy': Decimal(3)
+            ,'cost_transaction_sell': Decimal(3)
             ,'cost_tax_buy': DEFAULT_DECIMAL
             ,'cost_tax_sell': DEFAULT_DECIMAL
-            ,'amount_with_tax_buy': DEFAULT_DECIMAL
-            ,'amount_with_tax_sell': DEFAULT_DECIMAL
-            ,'profit_loss': DEFAULT_DECIMAL
+            ,'amount_with_tax_buy':Decimal(7663.1)
+            ,'amount_with_tax_sell':Decimal(7533.69)
+            ,'profit_loss': Decimal(-135.41)
             ,'cost_other': DEFAULT_DECIMAL
-            ,'shares_recommended': DEFAULT_DECIMAL
-            ,'price_buy':Decimal(25.0)
-            ,'price_sell':Decimal(30.0)
-            ,'price_buy_orig':Decimal(25.0)
-            ,'price_sell_orig':Decimal(30.0)
-            ,'stoploss_orig':DEFAULT_DECIMAL
+            ,'shares_recommended': 550
+            ,'price_buy':Decimal(13.93)
+            ,'price_sell':Decimal(13.7)
+            ,'price_buy_orig':Decimal(18.9)
+            ,'price_sell_orig':Decimal(18.5)
             ,'commission_buy':Decimal(3)
             ,'commission_sell':Decimal(3)
+            ,'cost_total': DEFAULT_DECIMAL
         } 
     })
    
@@ -228,7 +230,7 @@ class TestValues(unittest.TestCase):
                     value['i_price_buy'],
                     value['i_shares_buy'],
                     value['i_tax_buy'],
-                    value['i_tax_sell'])
+                    value['i_commission_buy'])
             self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 4)
 
     def test_cost_transaction_sell(self):
@@ -241,7 +243,8 @@ class TestValues(unittest.TestCase):
                     value['i_price_sell'],
                     value['i_shares_sell'],
                     value['i_tax_sell'],
-                    value['i_tax_sell'])
+                    value['i_commission_sell'])
+            print("-- test_cost_transaction_sell:", result)
             self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 4)
 
     def test_cost_tax_buy(self):
