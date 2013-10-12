@@ -39,8 +39,8 @@ class TestValues(unittest.TestCase):
         'i_comment':'test comment',
         'i_commission_buy':Decimal(3.0),
         'i_commission_sell':Decimal(3.0),
-        'i_tax_buy':Decimal(0.00),
-        'i_tax_sell':Decimal(0.00),
+        'i_tax_buy':DEFAULT_DECIMAL,
+        'i_tax_sell':DEFAULT_DECIMAL,
         'i_risk_input':Decimal(2.0),
         'i_currency_from':'USD',
         'i_currency_to':'EUR',
@@ -244,7 +244,6 @@ class TestValues(unittest.TestCase):
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            print("-- test_cost_transaction_sell:", result)
             self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 4)
 
     def test_cost_tax_buy(self):
@@ -252,6 +251,10 @@ class TestValues(unittest.TestCase):
             Test cost_tax for buying
         """
         for value in self.test_values:
+            print("-- test_cost_tax_buy:", value['i_amount_buy'])
+            print("-- test_cost_tax_buy:", value['i_commission_buy'])
+            print("-- test_cost_tax_buy:", value['i_shares_buy'])
+            print("-- test_cost_tax_buy:", value['i_price_buy'])
             result = calculator_finance.cost_tax(
                     Transaction.BUY,
                     value['i_amount_buy'],
