@@ -30,8 +30,10 @@ class TestValues(unittest.TestCase):
         'i_account_to':'assets:stock:ebr.devg',
         'i_date_buy':string_to_date("2013-10-11"),
         'i_date_sell':string_to_date("2013-10-09"),
-        'i_price_buy':Decimal(13.93),
-        'i_price_sell':Decimal(13.7),
+        'i_price_buy':DEFAULT_DECIMAL,
+        'i_price_sell':DEFAULT_DECIMAL,
+        'i_price_buy_orig':Decimal(18.9),
+        'i_price_sell_orig':Decimal(18.5),
         'i_shares_buy':550,
         'i_shares_sell':550,
         'i_amount_buy':DEFAULT_DECIMAL,
@@ -93,13 +95,19 @@ class TestValues(unittest.TestCase):
                 Decimal(100.0))
         self.assertAlmostEqual(float(25.45), float(result), 4)
 
+    def test_conversion(self, price_orig, exchange_rate):
+        """
+            Returns converted price.
+        """
+        return price_orig / exchange_rate
+
     def test_calculate_stoploss(self):
         """
             Test calculate_stoploss
         """
         for value in self.test_values:
             result = calculator_finance.calculate_stoploss(
-                    value['i_price_buy'],
+                    self.test_conversion(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_commission_buy'],
@@ -123,7 +131,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_risk_initial(
-                    value['i_price_buy'],
+                    self.test_conversion(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
                     value['i_shares'],
                     value['result_values']['stoploss'])
             self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
@@ -137,7 +145,7 @@ class TestValues(unittest.TestCase):
             result = calculator_finance.calculate_risk_actual(
                     value['result_values']['price_buy'],
                     value['result_values']['shares_buy'],
-                    value['i_price_sell'],
+                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
                     value['result_values']['stoploss'],
                     value['result_values']['risk_initial'])
@@ -150,7 +158,7 @@ class TestValues(unittest.TestCase):
         for value in self.test_values:
             result = calculator_finance.calculate_r_multiple(
                     value['result_values']['i_price_buy'],
-                    value['i_price_sell'],
+                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['result_values']['stoploss'])
             self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 4)
 
@@ -172,7 +180,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_amount_simple(
-                    value['i_price_buy'],
+                    self.test_conversion(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
                     value['i_shares_buy'])
             self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 4)
 
@@ -182,7 +190,7 @@ class TestValues(unittest.TestCase):
         """
         for value in self.test_values:
             result = calculator_finance.calculate_amount_simple(
-                    value['i_price_sell'],
+                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'])
             self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 4)
     
