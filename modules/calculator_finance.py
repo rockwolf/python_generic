@@ -258,7 +258,7 @@ def cost_tax(transactionid, amount, commission, shares, price):
         shares * price * tax_percentage for buy or sell
     """
     if transactionid == Transaction.SELL:
-        result = - amount + commission + shares * price
+        result = - amount - commission + shares * price
     else:
         result = amount - shares * price - commission
     return result
@@ -267,7 +267,7 @@ def calculate_amount_with_tax(tax, shares, price):
     """
         Calculates the amount (buy/sell) with tax included, but not the commission.
     """
-    return shares * price * ( Decimal(1.0) + tax)
+    return shares * price * (Decimal(1.0) + tax)
 
 def calculate_profit_loss(amount_sell_simple, amount_buy_simple, total_cost):
     """
