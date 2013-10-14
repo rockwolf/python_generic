@@ -18,9 +18,7 @@ class TestValues(unittest.TestCase):
         Test the calculations with an example.
     """
     test_values = [] 
-    # Profit - long
-    ## buy 100 devg at 25, sell at 30
-    # TODO: enter data from test1 ods
+    # Loss - short
     test_values.append({
         'i_market_name':'ebr',
         'i_market_description':'Europe Brussels',
@@ -66,12 +64,12 @@ class TestValues(unittest.TestCase):
             ,'amount_buy_simple':Decimal(7663.1)
             ,'amount_sell_simple':Decimal(7533.69)
             ,'amount_buy':Decimal(7666.1)
-            ,'amount_sell':Decimal(7530.69)
+            ,'amount_sell':Decimal(7533.69)
             ,'cost_transaction_buy': Decimal(3)
             ,'cost_transaction_sell': Decimal(3)
             ,'cost_tax_buy': DEFAULT_DECIMAL
             ,'cost_tax_sell': DEFAULT_DECIMAL
-            ,'amount_with_tax_buy':Decimal(7663.1)
+            ,'amount_with_tax_buy':Decimal(7666.1)
             ,'amount_with_tax_sell':Decimal(7533.69)
             ,'profit_loss': Decimal(-135.41)
             ,'cost_other': DEFAULT_DECIMAL
