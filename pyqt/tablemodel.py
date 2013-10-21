@@ -8,11 +8,18 @@ class TableModel(QtCore.QAbstractTableModel):
     """
 
     def __init__(self, data = [[]], headers = [], parent = None):
+        """
+            Initialize.
+        """
         QtCore.QAbstractTableModel.__init__(self, parent)
         self.__values = data
         self.__headers = headers
    
     def headerData(self, section, orientation, role):
+        """
+            Gets the header data
+            for the different roles.
+        """
         if role == QtCore.Qt.DisplayRole:
             if orientation == QtCore.Qt.Horizontal:
                 if section < len(self.__headers):
@@ -23,12 +30,22 @@ class TableModel(QtCore.QAbstractTableModel):
                 return "{}".format(section)
 
     def rowCount(self, parent):
+        """
+            Number of rows.
+        """
         return len(self.__values)
 
     def columnCount(self, parent):
+        """
+            Number of columns.
+        """
         return len(self.__values[0])
 
     def data(self, index, role):
+        """
+            Gets the data of the model
+            for the different roles.
+        """
         if role == QtCore.Qt.EditRole:
             row = index.row()
             column = index.column()
@@ -52,9 +69,15 @@ class TableModel(QtCore.QAbstractTableModel):
             return value
    
     def flags(self, index):
+        """
+            Check if one of the flags is set.
+        """
         return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
     def setData(self, index, value, role = QtCore.Qt.EditRole):
+        """
+           Sets the model data.
+        """
         print("-- test [setData]:", value)
         if role == QtCore.Qt.EditRole:
             row = index.row()
@@ -67,6 +90,9 @@ class TableModel(QtCore.QAbstractTableModel):
         return False
     
     def insertRows(self, position, rows, values = [], parent = QtCore.QModelIndex()):
+        """
+            Inserts rows to the model.
+        """
         print("-- test [insertRows]:", values)
         self.beginInsertRows(QtCore.QModelIndex(), position, position + rows - 1)
         for i in range(rows):
@@ -79,6 +105,9 @@ class TableModel(QtCore.QAbstractTableModel):
         return True
 
     def insertColumns(self, position, columns, values = [], parent = QtCore.QModelIndex()):
+        """
+            Inserts columns to the model.
+        """
         self.beginInsertColumns(QtCore.QModelIndex(), position, position + columns - 1)
         row_count = len(self.__values)
         for i in range(columns):
@@ -88,6 +117,9 @@ class TableModel(QtCore.QAbstractTableModel):
         return True
 
     def removeRows(self, position, rows, parent = QtCore.QModelIndex()):
+        """
+            Removes rows from the model.
+        """
         self.beginRemoveRows(QtCore.QModelIndex(), position, position + rows - 1)
         for i in range(rows):
             value = self.__values[position]
@@ -96,12 +128,12 @@ class TableModel(QtCore.QAbstractTableModel):
     
     def clear(self):
         """
-Clear the data.
-"""
+                Clear the data.
+        """
         self.__values = [[]]
 
     def get_values(self):
         """
-Returns the values.
-"""
+                Returns the values.
+        """
         return self.__values
