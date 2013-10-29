@@ -177,7 +177,7 @@ def calculate_percentage_of(value, from_value):
     return value / from_value * Decimal(100.0)
 
 ## Financial calculations ##
-def calculate_stoploss(price, shares, tax, commission, i_risk, pool_at_start, long_bool):
+def calculate_stoploss(price, shares, tax, commission, i_risk, i_pool, long_bool):
     """
         Calculates the stoploss.
         Note:
@@ -192,11 +192,11 @@ def calculate_stoploss(price, shares, tax, commission, i_risk, pool_at_start, lo
         (S.Ps - S.Ps.T - C) - (S.Psl + S.Psl.T + C) = R/100 * pool
     """
     if long_bool:
-        var_T = ((i_risk * pool_at_start) + 2 * commission
+        var_T = ((i_risk * i_pool) + 2 * commission
         var_N = shares * (Decimal(1.0) - tax)
         result = price + var_T / var_N
     else:
-        var_T = ((i_risk * pool_at_start) + 2 * commission
+        var_T = ((i_risk * i_pool) + 2 * commission
         var_N = shares * (Decimal(1.0) - tax)
         result = price - var_T / var_N
     return  result
