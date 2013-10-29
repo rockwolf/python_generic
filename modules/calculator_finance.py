@@ -221,15 +221,15 @@ def calculate_risk_initial(price_buy, price_sell, shares_buy, shares_sell, stopl
     else:
         return (stoploss * shares_sell) - (price_sell * shares_sell)
 
-def calculate_risk_actual(price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial):
+def calculate_risk_actual(price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial, long_bool):
     """
         Calculates the risk we actually took,
         based on the data in TABLE_TRADE.
     """
-    if price_sell < stoploss:
+    result = risk_initial
+    if ((price_sell < stoploss) and long_bool)
+        or ((price_buy > stoploss) and not long_bool):
         result = (price_buy * shares_buy) - (price_sell * shares_sell)
-    else:
-        result = risk_initial
     return result
 
 def calculate_r_multiple(profit_loss, risk_initial):
