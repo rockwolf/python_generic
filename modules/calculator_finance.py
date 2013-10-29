@@ -282,14 +282,25 @@ def cost_tax(transactionid, amount, commission, shares, price):
 def calculate_amount_with_tax(tax, shares, price):
     """
         Calculates the amount (buy/sell) with tax included, but not the commission.
+        Note:
+        Calculation based on:
+        long
+        ----
+        profit_loss = S.Pb + S.Pb.T + C - (S.Ps - S.Ps.T - C)
+        
+        short
+        -----
+        profit_loss = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
     """
     return shares * price * (Decimal(1.0) + tax)
 
-def calculate_profit_loss(amount_sell_simple, amount_buy_simple, total_cost):
+def calculate_profit_loss(price_buy, shares_buy, price_sell, shares_sell, tax_buy, tax_sell, commission_buy, commission_sell, long_bool):
     """
         Calculates the profit_loss.
     """
-    return amount_sell_simple - amount_buy_simple - total_cost
+    if long_bool:
+        result = shares_buy * price_buy * (1 + tax_buy) - shares_sell * price_sell * (1 - tax_sell) + (commission_buy + commission_sell)
+    return result
 
 def calculate_cost_other(cost_total, profit_loss):
     """
