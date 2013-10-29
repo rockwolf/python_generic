@@ -177,18 +177,29 @@ def calculate_percentage_of(value, from_value):
     return value / from_value * Decimal(100.0)
 
 ## Financial calculations ##
-def calculate_stoploss(price_buy, shares_buy, tax_buy, commission_buy, i_risk, pool_at_start, long_bool):
+def calculate_stoploss(price, shares, tax, commission, i_risk, pool_at_start, long_bool):
     """
         Calculates the stoploss.
+        Note:
+        Long
+        ----
+        amount selling at stoploss - amount at buying = initial risk of pool
+        (S.Psl - S.Psl.T - C) - (S.Pb + S.Pb.T + C) = R/100 * pool
+        
+        Short
+        -----
+        amount selling - amount buying at stoploss = initial risk of pool
+        (S.Ps - S.Ps.T - C) - (S.Psl + S.Psl.T + C) = R/100 * pool
     """
     if long_bool:
-        var_T = ((i_risk * price_buy) - calculate_amount_simple(price_buy, shares_buy)) - commission_buy
-        var_N = shares_buy * (tax_buy - Decimal(1.0))
+        var_T = ((i_risk * pool_at_start) + 2 * commission
+        var_N = shares * (Decimal(1.0) - tax)
+        result = price + var_T / var_N
     else:
-        #TODO: make the calculation for sell.
-        var_T = ((i_risk * price_buy) - calculate_amount_simple(price_buy, shares_buy)) - commission_buy
-        var_N = shares_buy * (tax_buy - Decimal(1.0))
-    return  var_T / var_N
+        var_T = ((i_risk * pool_at_start) + 2 * commission
+        var_N = shares * (Decimal(1.0) - tax)
+        result = price - var_T / var_N
+    return  result
         
 def calculate_risk_input(i_pool, i_risk):
     """
