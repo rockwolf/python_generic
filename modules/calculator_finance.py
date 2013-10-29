@@ -300,6 +300,8 @@ def calculate_profit_loss(price_buy, shares_buy, price_sell, shares_sell, tax_bu
     """
     if long_bool:
         result = shares_buy * price_buy * (1 + tax_buy) - shares_sell * price_sell * (1 - tax_sell) + (commission_buy + commission_sell)
+    else:
+        result = shares_sell * price_sell * (1 - tax_sell) - shares_buy * price_buy * (1 + tax_buy) - (commission_buy + commission_sell)
     return result
 
 def calculate_cost_other(cost_total, profit_loss):
