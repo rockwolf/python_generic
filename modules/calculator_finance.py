@@ -192,11 +192,11 @@ def calculate_stoploss(price, shares, tax, commission, i_risk, i_pool, long_bool
         (S.Ps - S.Ps.T - C) - (S.Psl + S.Psl.T + C) = R/100 * pool
     """
     if long_bool:
-        var_T = ((i_risk * i_pool) + 2 * commission
+        var_T = (i_risk * i_pool) + 2 * commission
         var_N = shares * (Decimal(1.0) - tax)
         result = price + var_T / var_N
     else:
-        var_T = ((i_risk * i_pool) + 2 * commission
+        var_T = (i_risk * i_pool) + 2 * commission
         var_N = shares * (Decimal(1.0) - tax)
         result = price - var_T / var_N
     return  result
@@ -227,7 +227,7 @@ def calculate_risk_actual(price_buy, shares_buy, price_sell, shares_sell, stoplo
         based on the data in TABLE_TRADE.
     """
     result = risk_initial
-    if ((price_sell < stoploss) and long_bool)
+    if ((price_sell < stoploss) and long_bool) \
         or ((price_buy > stoploss) and not long_bool):
         result = (price_buy * shares_buy) - (price_sell * shares_sell)
     return result
