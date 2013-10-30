@@ -100,6 +100,8 @@ class TestValues(unittest.TestCase):
         """
             Returns converted price.
         """
+        print("test_conversion -- price_orig =", price_orig)
+        print("test_conversion -- exchange_rate =", exchange_rate)
         return price_orig / exchange_rate
 
     def test_calculate_stoploss(self):
@@ -109,7 +111,7 @@ class TestValues(unittest.TestCase):
         calc = CalculatorFinance()
         for value in self.test_values:
             result = calc.calculate_stoploss(
-                    self.test_conversion(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_commission_sell'],
@@ -138,7 +140,7 @@ class TestValues(unittest.TestCase):
         calc = CalculatorFinance()
         for value in self.test_values:
             result = calc.calculate_risk_initial(
-                    self.test_conversion(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares'],
                     value['result_values']['stoploss'])
             self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
