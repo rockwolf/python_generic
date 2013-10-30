@@ -27,9 +27,13 @@ class Functions():
         """
             Returns converted price.
         """
-        print("test_conversion -- price_orig =", price_orig)
-        print("test_conversion -- exchange_rate =", exchange_rate)
         return price_orig / exchange_rate
+
+    def test_margin_of_pool(self, pool, margin):
+        """
+            Returns the pool minus a margin.
+        """
+        return pool*(1-margin/Decimal(100.0))
 
 
 class TestValues(unittest.TestCase):
@@ -38,6 +42,7 @@ class TestValues(unittest.TestCase):
     """
     test_values = [] 
     # Loss - short
+    #3	1	cfd other non-share	SBH4.cfd	2013-10-11	2013-10-09	0	13.93	13.7	550	550	3	3	0.0000	0	3	3	151.62	0.02	144.31	1.9	129.41	1.71	13.96	18.94	-129.41	-1.71	-0.9R	-0.90	0	1	33.33	7663.1	7533.69	2	2	7	18.9	18.5	USD	0.74	0.74	7581.23	?
     test_values.append({
         'i_market_name':'ebr',
         'i_market_description':'Europe Brussels',
@@ -70,7 +75,8 @@ class TestValues(unittest.TestCase):
         'i_periodic':0,
         'i_periodic_start':string_to_date("1900-01-01"),
         'i_periodic_end':string_to_date("1900-01-01"),
-        'i_pool':Decimal('50000'),
+        'i_pool':Decimal('10108.3066666666667'),
+        'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
             'stoploss': Decimal('13.96')
@@ -122,13 +128,22 @@ class TestValues(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
+            print("test calc_stoploss -- price_sell=", func.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']))
+            print("test calc_stoploss -- shares_sell=", value['i_shares_sell'])
+            print("test calc_stoploss -- tax_sell=", value['i_tax_sell'])
+            print("test calc_stoploss -- commission_sell=", value['i_commission_sell'])
+            print("test calc_stoploss -- risk_input=", value['i_risk_input'])
+            print("test calc_stoploss -- pool=", value['i_pool'])
+            print("test calc_stoploss -- pool2=", func.test_margin_of_pool(value['i_pool'], value['i_margin']))
+            #TODO: the error is probably in risk_input.
+            # This is 2.0, from 2.0 percent. But it needs to be 2.0*pool_at_start or something.
             result = calc.calculate_stoploss(
                     func.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
                     value['i_tax_sell'],
                     value['i_commission_sell'],
                     value['i_risk_input'],
-                    value['i_pool'],
+                    func.test_margin_of_pool(value['i_pool'], value['i_margin']),
                     value['i_long_bool'])
             self.assertAlmostEqual(float(value['result_values']['stoploss']), float(result), 4)
         func = None
