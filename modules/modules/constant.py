@@ -145,6 +145,6 @@ INVESTMENT = ['stock', 'fund', 'bond']
 NEGATIVES = ['income', 'capital_gain', 'profit', 'liabilities']
     
 DEFAULT_DATE = "1900-01-01"
-DEFAULT_DECIMAL = Decimal(0.0)
+DEFAULT_DECIMAL = Decimal('0.0')
 DEFAULT_INT = 0
 TRADING_ACCOUNT_ID = 6
