@@ -1,4 +1,4 @@
-#!/usr/env/python
+#!/usr/bin/env python
 """
 See LICENSE file for copyright and license details.
 """
@@ -10,7 +10,7 @@ from calculator_finance import CalculatorFinance
 import unittest
 from decimal import Decimal, getcontext
 from function import *
-from modules.constant import *
+from constant import *
 import sys
 
 class TestValues(unittest.TestCase):

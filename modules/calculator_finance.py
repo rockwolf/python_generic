@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 See LICENSE file for copyright and license details.
 """
@@ -6,11 +7,9 @@ See LICENSE file for copyright and license details.
 A file with financial calculations
 """
 
-from modules.constant import * 
+from constant import * 
 from decimal import Decimal
 from math import floor
-#from database import DatabaseAccess
-#from modules.config import ConfigParser
 
 class CalculatorFinance:
     """
