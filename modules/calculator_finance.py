@@ -216,18 +216,17 @@ class CalculatorFinance:
         """
         return i_risk/Decimal('100.0') * i_pool
 
-    def calculate_risk_initial(self, price_buy, price_sell, shares_buy, shares_sell, stoploss, long_bool):
+    def calculate_risk_initial(self, price, shares, stoploss, long_bool):
         """
             Calculates the initial risk.
             This is the risk we will take if our stoploss is reached.
             This should be equal to the risk_input if everything was
             correctly calculated.
         """
-        #TODO: this is incorrect for shorting, because SL > price_buy
         if long_bool:
-            return (price_buy * shares_buy) - (stoploss * shares_buy)
+            return (price * shares) - (stoploss * shares)
         else:
-            return (stoploss * shares_sell) - (price_sell * shares_sell)
+            return (stoploss * shares) - (price * shares)
 
     def calculate_risk_actual(self, price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial, long_bool):
         """
