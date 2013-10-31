@@ -8,7 +8,7 @@ A file with financial calculations
 """
 
 from constant import * 
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from math import floor
 
 class CalculatorFinance:
@@ -192,21 +192,21 @@ class CalculatorFinance:
             Long
             ----
             amount selling at stoploss - amount at buying = initial risk of pool
-            (S.Psl - S.Psl.T - C) - (S.Pb + S.Pb.T + C) = R/100 * pool
+            (S.Pb + S.Pb.T + C) - (S.Psl - S.Psl.T - C) -  = R/100 * pool
             
             Short
             -----
             amount selling - amount buying at stoploss = initial risk of pool
-            (S.Ps - S.Ps.T - C) - (S.Psl + S.Psl.T + C) = R/100 * pool
+            (S.Psl + S.Psl.T + C) - (S.Ps - S.Ps.T - C) = R/100 * pool
         """
         if long_bool:
             var_T = (i_risk / Decimal('100.0') * i_pool) + Decimal('2.0') * commission
             var_N = shares * (Decimal('1.0') - tax)
-            result = price + var_T / var_N
+            result = price - var_T / var_N
         else:
             var_T = (i_risk / Decimal('100.0') * i_pool) + Decimal('2.0') * commission
             var_N = shares * (Decimal('1.0') - tax)
-            result = price - var_T / var_N
+            result = price + var_T / var_N
         return  result
             
     def calculate_risk_input(self, i_pool, i_risk):
@@ -214,9 +214,10 @@ class CalculatorFinance:
             Calculates the risk based on total pool and input.
             Consider this the theoretical risk we want to take.
         """
+        print("test: i_risk =", i_risk, " / i_pool=", i_pool)
         return i_risk/Decimal('100.0') * i_pool
 
-    def calculate_risk_initial(self, price, shares, stoploss, long_bool):
+    def calculate_risk_initial(self, price, shares, tax, commission, stoploss, long_bool):
         """
             Calculates the initial risk.
             This is the risk we will take if our stoploss is reached.
@@ -224,9 +225,10 @@ class CalculatorFinance:
             correctly calculated.
         """
         if long_bool:
-            return (price * shares) - (stoploss * shares)
+            result = (price * shares) - (stoploss * shares) + Decimal('2.0') * commission
         else:
-            return (stoploss * shares) - (price * shares)
+            result = (stoploss * shares) - (price * shares) - Decimal('2.0') * commission
+        return abs(result)
 
     def calculate_risk_actual(self, price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial, long_bool):
         """
