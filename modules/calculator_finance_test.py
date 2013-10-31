@@ -75,7 +75,7 @@ class TestValues(unittest.TestCase):
         'i_currency_from':'USD',
         'i_currency_to':'EUR',
         'i_exchange_rate_buy':Decimal('0.737191301'),
-        'i_exchange_rate_sell':Decimal('0.740411669'),
+        'i_exchange_rate_sell':Decimal('0.7391'), #Decimal('0.740411669'),
         'i_automatic_flag':0,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':0,
@@ -87,9 +87,9 @@ class TestValues(unittest.TestCase):
         'result_values': {
             'stoploss': Decimal('13.96')
             ,'stoploss_orig': Decimal('18.94')
-            ,'risk_input': Decimal('151.625')
-            ,'risk_initial': Decimal('144.31')
-            ,'risk_initial_percent': Decimal('1.91')
+            ,'risk_input': Decimal('151.6246')
+            ,'risk_initial': Decimal('151.6246')
+            ,'risk_initial_percent': Decimal('2.00')
             ,'risk_actual': Decimal('129.41')
             ,'risk_actual_percent': Decimal('1.71')
             ,'r_multiple': Decimal('-0.94')
@@ -170,20 +170,27 @@ class TestValues(unittest.TestCase):
         func = None
         calc = None
 
-#    def calculate_risk_initial(self):
-#        """
-#            Test calculate_risk_initial
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_risk_initial(
-#                    self.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-#                    value['i_shares'],
-#                    value['result_values']['stoploss'])
-#            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
-#        calc = None
-#                    
-#
+    def test_calculate_risk_initial(self):
+        """
+            Test calculate_risk_initial
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            print("test_calc_risk_initial -- price=", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']))
+            print("test_calc_risk_intitial -- stoploss=",
+                value['result_values']['stoploss'])
+            result = calc.calculate_risk_initial(
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_shares_sell'],
+                    value['i_tax_sell'],
+                    value['i_commission_sell'],
+                    value['result_values']['stoploss'],
+                    value['i_long_bool'])
+            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
+        func = None
+        calc = None
+
 #    def calculate_risk_actual(self):
 #        """
 #            Test calculate_risk_actual
@@ -485,7 +492,16 @@ class TestValues(unittest.TestCase):
 #        calc = None
 #
 if __name__ == "__main__":
-    getcontext().prec = 6
-    #test = TestValues()
-    #test.run()
+    getcontext().prec = 28
     unittest.main(verbosity=2)
+
+#def run(self):
+#        """
+#           Run the unit tests. 
+#        """
+#        try:
+#            print("test calc_..._test.py")
+#            unittest.main()
+#            print("test calc_..._test.py 2")
+#        except Exception as ex:
+#            print("Error running unittest: ", ex)
