@@ -65,7 +65,7 @@ class TestValues(unittest.TestCase):
         'i_commission_sell':Decimal('3.0'),
         'i_tax_buy':DEFAULT_DECIMAL,
         'i_tax_sell':DEFAULT_DECIMAL,
-        'i_risk_input':Decimal('2.0'),
+        'i_risk_input':Decimal('2.0')/Decimal('100.0'),
         'i_currency_from':'USD',
         'i_currency_to':'EUR',
         'i_exchange_rate_buy':Decimal('0.737191301'),
@@ -81,7 +81,7 @@ class TestValues(unittest.TestCase):
         'result_values': {
             'stoploss': Decimal('13.96')
             ,'stoploss_orig': Decimal('18.94')
-            ,'risk_input': Decimal('2.0')
+            ,'risk_input': Decimal('0.02')
             ,'risk_initial': Decimal('144.31')
             ,'risk_initial_percent': Decimal('1.91')
             ,'risk_actual': Decimal('129.41')
