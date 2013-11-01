@@ -27,7 +27,7 @@ class Functions():
         """
             Returns original price.
         """
-        return pric / exchange_rate
+        return price / exchange_rate
 
     def test_conversion_to(self, price_orig, exchange_rate):
         """
@@ -39,33 +39,28 @@ class Functions():
         """
             Returns the pool minus a margin.
         """
-        return pool*(1-margin/Decimal(100.0))
-
+        return pool*(Decimal('1.0')-margin/Decimal(100.0))
 
 class TestValues(unittest.TestCase):
     """
         Test the calculations with an example.
     """
     test_values = [] 
-    # Loss - short
+    # Win - short
     #3	1	cfd other non-share	SBH4.cfd	2013-10-11	2013-10-09	0	13.93	13.7	550	550	3	3	0.0000	0	3	3	151.62	0.02	144.31	1.9	129.41	1.71	13.96	18.94	-129.41	-1.71	-0.9R	-0.90	0	1	33.33	7663.1	7533.69	2	2	7	18.9	18.5	USD	0.74	0.74	7581.23	?
     test_values.append({
-        'i_market_name':'ebr',
-        'i_market_description':'Europe Brussels',
-        'i_stock_name':'devg',
-        'i_stock_description':'Devgen N.V.',
+        'i_market_name':'.cfd other non-share',
+        'i_market_description':'cfds on commodities',
+        'i_stock_name':'SBH4.cfd',
+        'i_stock_description':'London Sugar No. 11 (USD)',
         'i_account_from':'assets:current_assets:whsi00', #Note: Get account_id from T_ACCOUNT for final insert
-        'i_account_to':'assets:stock:ebr.devg',
-        'i_date_buy':string_to_date("2013-10-11"),
-        'i_date_sell':string_to_date("2013-10-09"),
-        'i_price_buy':DEFAULT_DECIMAL,
-        'i_price_sell':DEFAULT_DECIMAL,
-        'i_price_buy_orig':Decimal('18.9'),
-        'i_price_sell_orig':Decimal('18.5'),
-        'i_shares_buy':550,
-        'i_shares_sell':550,
-        'i_amount_buy':DEFAULT_DECIMAL,
-        'i_amount_sell':Decimal('7533.69'),
+        'i_account_to':'assets:commodity:SBH4.cfd',
+        'i_date_buy':string_to_date("2013-10-24"),
+        'i_date_sell':string_to_date("2013-10-21"),
+        'i_price_buy_orig':Decimal('19.16'),
+        'i_price_sell_orig':Decimal('19.46'),
+        'i_shares_buy':520,
+        'i_shares_sell':520,
         'i_comment':'test comment',
         'i_commission_buy':Decimal('3.0'),
         'i_commission_sell':Decimal('3.0'),
@@ -74,25 +69,23 @@ class TestValues(unittest.TestCase):
         'i_risk_input':Decimal('2.0'),
         'i_currency_from':'USD',
         'i_currency_to':'EUR',
-        'i_exchange_rate_buy':Decimal('0.737191301'),
-        'i_exchange_rate_sell':Decimal('0.7391'), #Decimal('0.740411669'),
-        'i_automatic_flag':0,
+        'i_exchange_rate_buy':Decimal('0.725373567'),
+        'i_exchange_rate_sell':Decimal('0.730940721'),
+        'i_automatic_flag':False,
         'i_date_expiration':string_to_date("2014-01-01"),
-        'i_periodic':0,
-        'i_periodic_start':string_to_date("1900-01-01"),
-        'i_periodic_end':string_to_date("1900-01-01"),
-        'i_pool':Decimal('10108.3066666666667'),
+        'i_periodic':False,
+        'i_pool':Decimal('9907.69333333'),
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
-            'stoploss': Decimal('13.96')
-            ,'stoploss_orig': Decimal('18.94')
-            ,'risk_input': Decimal('151.6246')
-            ,'risk_initial': Decimal('151.6246')
-            ,'risk_initial_percent': Decimal('2.00')
-            ,'risk_actual': Decimal('129.41')
-            ,'risk_actual_percent': Decimal('1.71')
-            ,'r_multiple': Decimal('-0.94')
+            'stoploss': Decimal('14.49837')
+            ,'stoploss_orig': Decimal('19.96')
+            ,'risk_input': Decimal('148.6154')
+            ,'risk_initial': Decimal('148.61705')
+            ,'risk_initial_percent': Decimal('1.79')
+            ,'risk_actual': Decimal('148.61705')
+            ,'risk_actual_percent': Decimal('1.79')
+            ,'r_multiple': Decimal('1.27')
             ,'amount_buy_simple':Decimal('7663.1')
             ,'amount_sell_simple':Decimal('7533.69')
             ,'amount_buy':Decimal('7666.1')
@@ -101,18 +94,19 @@ class TestValues(unittest.TestCase):
             ,'cost_transaction_sell': Decimal('3.0')
             ,'cost_tax_buy': DEFAULT_DECIMAL
             ,'cost_tax_sell': DEFAULT_DECIMAL
-            ,'amount_with_tax_buy':Decimal('7666.1')
-            ,'amount_with_tax_sell':Decimal('7533.69')
-            ,'profit_loss': Decimal('-135.41')
+            ,'amount_with_tax_buy':Decimal('7227.04')
+            ,'amount_with_tax_sell':Decimal('7396.54')
+            ,'profit_loss': Decimal('169.49')
+            ,'profit_loss_percent': Decimal('2.28')
             ,'cost_other': DEFAULT_DECIMAL
-            ,'shares_recommended': 550
-            ,'price_buy':Decimal('13.93')
-            ,'price_sell':Decimal('13.7')
-            ,'price_buy_orig':Decimal('18.9')
-            ,'price_sell_orig':Decimal('18.5')
+            ,'shares_recommended': 520
+            ,'price_buy':Decimal('13.9')
+            ,'price_sell':Decimal('14.22')
+            ,'price_buy_orig':Decimal('19.16')
+            ,'price_sell_orig':Decimal('19.46')
             ,'commission_buy':Decimal('3.0')
             ,'commission_sell':Decimal('3.0')
-            ,'cost_total': DEFAULT_DECIMAL
+            ,'cost_total': Decimal('6.0')
         } 
     })
    
@@ -124,7 +118,7 @@ class TestValues(unittest.TestCase):
         result = calc.calculate_percentage_of(
                 Decimal('25.45'),
                 Decimal('100.0'))
-        self.assertAlmostEqual(float(25.45), float(result), 4)
+        self.assertAlmostEqual(float(25.45), round(float(result), 2), 4)
         calc = None
     
     def test_calculate_stoploss(self):
@@ -134,14 +128,6 @@ class TestValues(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print("test calc_stoploss -- price_sell=",
-                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']))
-            print("test calc_stoploss -- shares_sell=", value['i_shares_sell'])
-            print("test calc_stoploss -- tax_sell=", value['i_tax_sell'])
-            print("test calc_stoploss -- commission_sell=", value['i_commission_sell'])
-            print("test calc_stoploss -- risk_input=", value['i_risk_input'])
-            print("test calc_stoploss -- pool=", value['i_pool'])
-            print("test calc_stoploss -- pool2=", func.test_margin_of_pool(value['i_pool'], value['i_margin']))
             result = calc.calculate_stoploss(
                     func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
@@ -177,9 +163,6 @@ class TestValues(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print("test_calc_risk_initial -- price=", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']))
-            print("test_calc_risk_intitial -- stoploss=",
-                value['result_values']['stoploss'])
             result = calc.calculate_risk_initial(
                     func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
@@ -191,21 +174,24 @@ class TestValues(unittest.TestCase):
         func = None
         calc = None
 
-#    def calculate_risk_actual(self):
-#        """
-#            Test calculate_risk_actual
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_risk_actual(
-#                    value['result_values']['price_buy'],
-#                    value['i_shares_buy'],
-#                    self.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-#                    value['i_shares_sell'],
-#                    value['result_values']['stoploss'],
-#                    value['result_values']['risk_initial'])
-#            self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
-#        calc = None
+    def test_calculate_risk_actual(self):
+        """
+            Test calculate_risk_actual
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_risk_actual(
+                    value['result_values']['price_buy'],
+                    value['i_shares_buy'],
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_shares_sell'],
+                    value['result_values']['stoploss'],
+                    value['result_values']['risk_initial'],
+                    value['i_long_bool'])
+            self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
+        func = None
+        calc = None
 #
 #    def calculate_r_multiple(self):
 #        """
@@ -492,7 +478,7 @@ class TestValues(unittest.TestCase):
 #        calc = None
 #
 if __name__ == "__main__":
-    getcontext().prec = 28
+    #getcontext().prec = 28
     unittest.main(verbosity=2)
 
 #def run(self):
