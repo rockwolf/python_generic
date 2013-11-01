@@ -202,9 +202,9 @@ class CalculatorFinance:
             (S.Psl + S.Psl.T + C) - (S.Ps - S.Ps.T - C) = R/100 * pool
         """
         if long_bool:
-            var_T = (i_risk / Decimal('100.0') * i_pool) + Decimal('2.0') * commission
+            var_T = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - (i_risk / Decimal('100.0') * i_pool) + Decimal('2.0') * commission
             var_N = shares * (Decimal('1.0') - tax / Decimal('100.0'))
-            result = price - var_T / var_N
+            result = var_T / var_N
         else:
             var_T = (i_risk / Decimal('100.0') * i_pool) + shares * price * (Decimal('1.0') - tax / Decimal('100.0')) - Decimal('2.0') * commission
             var_N = shares * (Decimal('1.0') + tax / Decimal('100.0'))
@@ -234,7 +234,7 @@ class CalculatorFinance:
             S.Psl + S.Psl.T + C - (S.Ps - S.Ps.T - C)
         """
         if long_bool:
-            result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) + Decimal('2.0') * commission
+            result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         else:
             result = shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - shares * price * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         return result
