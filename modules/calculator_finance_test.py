@@ -192,61 +192,64 @@ class TestValues(unittest.TestCase):
             self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
         func = None
         calc = None
-#
-#    def calculate_r_multiple(self):
-#        """
-#            Test calculate_r_multiple
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_r_multiple(
-#                    value['result_values']['i_price_buy'],
-#                    self.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-#                    value['result_values']['stoploss'])
-#            self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 4)
-#        calc = None
-#
-#    def calculate_cost_total(self):
-#        """
-#            Test calculate_cost_total
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_cost_total(
-#                    value['result_values']['tax_buy'],
-#                    value['result_values']['commission_buy'],
-#                    value['i_tax_sell'],
-#                    value['i_commission_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_total']), float(result), 4)
-#        calc = None
-#
-#    def test_calculate_amount_buy_simple(self):
-#        """
-#            Test calculate_amount_simpel for buying
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            print("test --- ",
-#                    self.test_conversion_to(value['i_price_buy_orig'],
-#                        value['i_exchange_rate_buy']))
-#            result = calc.calculate_amount_simple(
-#                    value['i_shares_buy'],
-#                    self.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']))
-#            self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 4)
-#        calc = None
-#
-#    def test_calculate_amount_sell_simple(self):
-#        """
-#            Test calculate_amount_simpel for selling
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_amount_simple(
-#                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-#                    value['i_shares_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 4)
-#        calc = None
-#    
+
+    def test_calculate_r_multiple(self):
+        """
+            Test calculate_r_multiple
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_r_multiple(
+                    value['result_values']['price_sell'],
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['result_values']['stoploss'])
+            self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 4)
+        func = None
+        calc = None
+
+    def test_calculate_cost_total(self):
+        """
+            Test calculate_cost_total
+        """
+        calc = CalculatorFinance()
+        for value in self.test_values:
+            result = calc.calculate_cost_total(
+                    value['i_tax_buy'],
+                    value['i_commission_buy'],
+                    value['i_tax_sell'],
+                    value['i_commission_sell'])
+            self.assertAlmostEqual(float(value['result_values']['cost_total']), float(result), 4)
+        calc = None
+
+    def test_calculate_amount_buy_simple(self):
+        """
+            Test calculate_amount_simpel for buying
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_amount_simple(
+                    value['i_shares_buy'],
+                    func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']))
+            self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 4)
+        func = None
+        calc = None
+
+    def test_calculate_amount_sell_simple(self):
+        """
+            Test calculate_amount_simpel for selling
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_amount_simple(
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_shares_sell'])
+            self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 4)
+        func = None
+        calc = None
+    
 #    def test_calculate_amount_buy(self):
 #        """
 #            Test calculate_amount for buying
