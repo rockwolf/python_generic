@@ -86,10 +86,10 @@ class TestValues(unittest.TestCase):
             ,'risk_actual': Decimal('148.61705')
             ,'risk_actual_percent': Decimal('1.79')
             ,'r_multiple': Decimal('1.14')
-            ,'amount_buy_simple':Decimal('7663.1')
-            ,'amount_sell_simple':Decimal('7533.69')
-            ,'amount_buy':Decimal('7666.1')
-            ,'amount_sell':Decimal('7533.69')
+            ,'amount_buy_simple':Decimal('7227.04')
+            ,'amount_sell_simple':Decimal('7396.54')
+            ,'amount_buy':Decimal('7230.04')
+            ,'amount_sell':Decimal('7393.54')
             ,'cost_transaction_buy': Decimal('3.0')
             ,'cost_transaction_sell': Decimal('3.0')
             ,'cost_tax_buy': DEFAULT_DECIMAL
@@ -118,7 +118,7 @@ class TestValues(unittest.TestCase):
         result = calc.calculate_percentage_of(
                 Decimal('25.45'),
                 Decimal('100.0'))
-        self.assertAlmostEqual(float(25.45), round(float(result), 2), 4)
+        self.assertAlmostEqual(float(25.45), round(float(result), 2), 2)
         calc = None
     
     def test_calculate_stoploss(self):
@@ -136,7 +136,7 @@ class TestValues(unittest.TestCase):
                     value['i_risk_input'],
                     func.test_margin_of_pool(value['i_pool'], value['i_margin']),
                     value['i_long_bool'])
-            self.assertAlmostEqual(float(value['result_values']['stoploss']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['stoploss']), float(result), 2)
         func = None
         calc = None
 
@@ -152,7 +152,7 @@ class TestValues(unittest.TestCase):
                             value['i_pool'],
                             value['i_margin']),
                         value['i_risk_input'])
-            self.assertAlmostEqual(float(value['result_values']['risk_input']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['risk_input']), float(result), 2)
         func = None
         calc = None
 
@@ -170,7 +170,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_sell'],
                     value['result_values']['stoploss'],
                     value['i_long_bool'])
-            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 2)
         func = None
         calc = None
 
@@ -189,7 +189,7 @@ class TestValues(unittest.TestCase):
                     value['result_values']['stoploss'],
                     value['result_values']['risk_initial'],
                     value['i_long_bool'])
-            self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 2)
         func = None
         calc = None
 
@@ -216,7 +216,7 @@ class TestValues(unittest.TestCase):
                     value['i_commission_buy'],
                     value['i_tax_sell'],
                     value['i_commission_sell'])
-            self.assertAlmostEqual(float(value['result_values']['cost_total']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['cost_total']), float(result), 2)
         calc = None
 
     def test_calculate_amount_buy_simple(self):
@@ -229,7 +229,7 @@ class TestValues(unittest.TestCase):
             result = calc.calculate_amount_simple(
                     value['i_shares_buy'],
                     func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']))
-            self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['amount_buy_simple']), float(result), 2)
         func = None
         calc = None
 
@@ -243,7 +243,7 @@ class TestValues(unittest.TestCase):
             result = calc.calculate_amount_simple(
                     func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'])
-            self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 4)
+            self.assertAlmostEqual(float(value['result_values']['amount_sell_simple']), float(result), 2)
         func = None
         calc = None
     
@@ -263,7 +263,7 @@ class TestValues(unittest.TestCase):
 #                    Transaction.BUY,
 #                    value['i_tax_buy'],
 #                    value['i_commission_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['amount_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['amount_buy']), float(result), 2)
 #        calc = None
 #                    
 #    def test_calculate_amount_sell(self):
@@ -282,7 +282,7 @@ class TestValues(unittest.TestCase):
 #                    Transaction.SELL,
 #                    value['i_tax_sell'],
 #                    value['i_commission_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['amount_sell']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['amount_sell']), float(result), 2)
 #        calc = None
 #    
 #    def test_cost_transaction_buy(self):
@@ -297,7 +297,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_shares_buy'],
 #                    value['i_tax_buy'],
 #                    value['i_commission_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 2)
 #        calc = None
 #
 #    def test_cost_transaction_sell(self):
@@ -312,7 +312,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_shares_sell'],
 #                    value['i_tax_sell'],
 #                    value['i_commission_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 2)
 #        calc = None
 #
 #    def test_cost_tax_buy(self):
@@ -331,7 +331,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_commission_buy'],
 #                    value['i_shares_buy'],
 #                    value['i_price_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_tax_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['cost_tax_buy']), float(result), 2)
 #        calc = None
 #
 #    def test_cost_tax_sell(self):
@@ -346,7 +346,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_commission_sell'],
 #                    value['i_shares_sell'],
 #                    value['i_price_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_tax_sell']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['cost_tax_sell']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_amount_with_tax_buy(self):
@@ -359,7 +359,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_tax_buy'],
 #                    value['i_shares_buy'],
 #                    value['i_price_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_profit_loss(self):
@@ -378,7 +378,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_commission_buy'],
 #                    value['i_commission_sell'],
 #                    value['i_long_bool'])
-#            self.assertAlmostEqual(float(value['result_values']['profit_loss']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['profit_loss']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_cost_other(self):
@@ -390,7 +390,7 @@ class TestValues(unittest.TestCase):
 #            result = calc.calculate_cost_other(
 #                    value['result_values']['cost_total'],
 #                    value['result_values']['profit_loss'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_shares_recommended(self):
@@ -414,7 +414,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_tax_sell'],
 #                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
 #                    )
-#            self.assertAlmostEqual(float(value['result_values']['shares_recommended']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['shares_recommended']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_price_buy(self):
@@ -429,7 +429,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_shares_buy'],
 #                    value['i_tax_buy'],
 #                    value['i_commission_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['price_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['price_buy']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_price_sell(self):
@@ -444,7 +444,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_shares_sell'],
 #                    value['i_tax_sell'],
 #                    value['i_commission_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['price_sell']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['price_sell']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_commission_buy(self):
@@ -459,7 +459,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_stock_name'],
 #                    value['i_price_buy'],
 #                    value['i_shares_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['commission_buy']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['commission_buy']), float(result), 2)
 #        calc = None
 #
 #    def test_calculate_commission_sell(self):
@@ -474,7 +474,7 @@ class TestValues(unittest.TestCase):
 #                    value['i_stock_name'],
 #                    value['i_price_sell'],
 #                    value['i_shares_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['commission_sell']), float(result), 4)
+#            self.assertAlmostEqual(float(value['result_values']['commission_sell']), float(result), 2)
 #        calc = None
 #
 if __name__ == "__main__":
