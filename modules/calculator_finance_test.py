@@ -85,7 +85,7 @@ class TestValues(unittest.TestCase):
             ,'risk_initial_percent': Decimal('1.79')
             ,'risk_actual': Decimal('148.61705')
             ,'risk_actual_percent': Decimal('1.79')
-            ,'r_multiple': Decimal('1.27')
+            ,'r_multiple': Decimal('1.14')
             ,'amount_buy_simple':Decimal('7663.1')
             ,'amount_sell_simple':Decimal('7533.69')
             ,'amount_buy':Decimal('7666.1')
@@ -198,14 +198,11 @@ class TestValues(unittest.TestCase):
             Test calculate_r_multiple
         """
         calc = CalculatorFinance()
-        func = Functions()
         for value in self.test_values:
             result = calc.calculate_r_multiple(
-                    value['result_values']['price_sell'],
-                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-                    value['result_values']['stoploss'])
-            self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 4)
-        func = None
+                    value['result_values']['profit_loss'],
+                    value['result_values']['risk_initial'])
+            self.assertAlmostEqual(float(value['result_values']['r_multiple']), float(result), 2)
         calc = None
 
     def test_calculate_cost_total(self):
