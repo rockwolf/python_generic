@@ -281,36 +281,40 @@ class TestValues(unittest.TestCase):
         func = None
         calc = None
     
-#    def test_cost_transaction_buy(self):
-#        """
-#            Test cost_transaction for buying
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.cost_transaction(
-#                    Transaction.BUY,
-#                    value['i_price_buy'],
-#                    value['i_shares_buy'],
-#                    value['i_tax_buy'],
-#                    value['i_commission_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 2)
-#        calc = None
-#
-#    def test_cost_transaction_sell(self):
-#        """
-#            Test cost_transaction for selling
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.cost_transaction(
-#                    Transaction.SELL,
-#                    value['i_price_sell'],
-#                    value['i_shares_sell'],
-#                    value['i_tax_sell'],
-#                    value['i_commission_sell'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 2)
-#        calc = None
-#
+    def test_cost_transaction_buy(self):
+        """
+            Test cost_transaction for buying
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.cost_transaction(
+                    Transaction.BUY,
+                    func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                    value['i_shares_buy'],
+                    value['i_tax_buy'],
+                    value['i_commission_buy'])
+            self.assertAlmostEqual(float(value['result_values']['cost_transaction_buy']), float(result), 2)
+        func = None
+        calc = None
+
+    def test_cost_transaction_sell(self):
+        """
+            Test cost_transaction for selling
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.cost_transaction(
+                    Transaction.SELL,
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_shares_sell'],
+                    value['i_tax_sell'],
+                    value['i_commission_sell'])
+            self.assertAlmostEqual(float(value['result_values']['cost_transaction_sell']), float(result), 2)
+        func = None
+        calc = None
+
 #    def test_cost_tax_buy(self):
 #        """
 #            Test cost_tax for buying
