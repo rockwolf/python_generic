@@ -256,6 +256,7 @@ class CalculatorFinance:
         """
         return profit_loss / risk_initial
 
+
     def calculate_cost_total(self, tax_buy, commission_buy, tax_sell, commission_sell):
         """
             Returns the total costs associated with the given trade.
@@ -274,7 +275,7 @@ class CalculatorFinance:
         """
         # NOTE:
         # AMT = SP + SPT + C (buy)
-        # AMT = SP - SPT - C (buy)
+        # AMT = SP - SPT - C (sell)
         if transactionid == Transaction.BUY:
             return shares * price + shares * price * tax + commission
         else:
