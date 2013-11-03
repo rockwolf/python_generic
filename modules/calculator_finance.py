@@ -243,6 +243,15 @@ class CalculatorFinance:
         """
             Calculates the risk we actually took,
             based on the data in TABLE_TRADE.
+            Note:
+            Calculation based on:
+            long
+            ----
+            profit_loss = S.Pb + S.Pb.T + C - (S.Ps - S.Ps.T - C)
+            
+            short
+            -----
+            profit_loss = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
         """
         result = risk_initial
         if ((price_sell < stoploss) and long_bool) \
@@ -298,30 +307,30 @@ class CalculatorFinance:
             result = amount - shares * price - commission
         return result
 
-    def calculate_amount_with_tax(self, tax, shares, price):
+    def calculate_amount_with_tax(self, transactionid, shares, price, tax):
         """
             Calculates the amount (buy/sell) with tax included, but not the commission.
             Note:
             Calculation based on:
-            long
+            buy
             ----
-            profit_loss = S.Pb + S.Pb.T + C - (S.Ps - S.Ps.T - C)
+            profit_loss = S.P + S.P.T
             
-            short
+            sell 
             -----
-            profit_loss = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
+            profit_loss = S.P - S.P.T
         """
-        return shares * price * (Decimal('1.0') + tax)
+        if transactionid == Transaction.SELL:
+            result = shares * price * (Decimal('1.0') + tax)
+        else:
+            result = shares * price * (Decimal('1.0') - tax)
+        return result
 
     def calculate_profit_loss(self, price_buy, shares_buy, price_sell, shares_sell, tax_buy, tax_sell, commission_buy, commission_sell, long_bool):
         """
             Calculates the profit_loss.
         """
-        if long_bool:
-            result = shares_buy * price_buy * (1 + tax_buy) - shares_sell * price_sell * (1 - tax_sell) + (commission_buy + commission_sell)
-        else:
-            result = shares_sell * price_sell * (1 - tax_sell) - shares_buy * price_buy * (1 + tax_buy) - (commission_buy + commission_sell)
-        return result
+        return shares_sell * price_sell * (1 - tax_sell) - shares_buy * price_buy * (1 + tax_buy) - (commission_buy + commission_sell)
 
     def calculate_cost_other(self, cost_total, profit_loss):
         """

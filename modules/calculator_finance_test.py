@@ -41,13 +41,11 @@ class Functions():
         """
         return pool*(Decimal('1.0')-margin/Decimal(100.0))
 
-class TestValues(unittest.TestCase):
+class TestValues0(unittest.TestCase):
     """
-        Test the calculations with an example.
+        Win - short
     """
     test_values = [] 
-    # Win - short
-    #3	1	cfd other non-share	SBH4.cfd	2013-10-11	2013-10-09	0	13.93	13.7	550	550	3	3	0.0000	0	3	3	151.62	0.02	144.31	1.9	129.41	1.71	13.96	18.94	-129.41	-1.71	-0.9R	-0.90	0	1	33.33	7663.1	7533.69	2	2	7	18.9	18.5	USD	0.74	0.74	7581.23	?
     test_values.append({
         'i_market_name':'.cfd other non-share',
         'i_market_description':'cfds on commodities',
@@ -85,7 +83,7 @@ class TestValues(unittest.TestCase):
             ,'risk_initial_percent': Decimal('1.79')
             ,'risk_actual': Decimal('148.61705')
             ,'risk_actual_percent': Decimal('1.79')
-            ,'r_multiple': Decimal('1.14')
+            ,'r_multiple': Decimal('1.1')
             ,'amount_buy_simple':Decimal('7227.04')
             ,'amount_sell_simple':Decimal('7396.54')
             ,'amount_buy':Decimal('7230.04')
@@ -96,8 +94,8 @@ class TestValues(unittest.TestCase):
             ,'cost_tax_sell': DEFAULT_DECIMAL
             ,'amount_with_tax_buy':Decimal('7227.04')
             ,'amount_with_tax_sell':Decimal('7396.54')
-            ,'profit_loss': Decimal('169.49')
-            ,'profit_loss_percent': Decimal('2.28')
+            ,'profit_loss': Decimal('163.49')
+            ,'profit_loss_percent': Decimal('2.2')
             ,'cost_other': DEFAULT_DECIMAL
             ,'shares_recommended': 520
             ,'price_buy':Decimal('13.9')
@@ -349,38 +347,59 @@ class TestValues(unittest.TestCase):
         func = None
         calc = None
 
-#    def test_calculate_amount_with_tax_buy(self):
-#        """
-#            Test calculate_amount_with_tax for buying
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_amount_with_tax(
-#                    value['i_tax_buy'],
-#                    value['i_shares_buy'],
-#                    value['i_price_buy'])
-#            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 2)
-#        calc = None
-#
-#    def test_calculate_profit_loss(self):
-#        """
-#            Test calculate_profit_loss
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_profit_loss(
-#                    value['result_values']['price_buy'],
-#                    value['i_shares_buy'],
-#                    value['result_values']['price_sell'],
-#                    value['i_shares_sell'],
-#                    value['i_tax_buy'],
-#                    value['i_tax_sell'],
-#                    value['i_commission_buy'],
-#                    value['i_commission_sell'],
-#                    value['i_long_bool'])
-#            self.assertAlmostEqual(float(value['result_values']['profit_loss']), float(result), 2)
-#        calc = None
-#
+    def test_calculate_amount_with_tax_buy(self):
+        """
+            Test calculate_amount_with_tax for buying
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_amount_with_tax(
+                    Transaction.BUY,
+                    value['i_shares_buy'],
+                    func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                    value['i_tax_buy'])
+            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_buy']), float(result), 2)
+        func = None
+        calc = None
+
+    def test_calculate_amount_with_tax_sell(self):
+        """
+            Test calculate_amount_with_tax for selling 
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_amount_with_tax(
+                    Transaction.SELL,
+                    value['i_shares_sell'],
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_tax_sell'])
+            self.assertAlmostEqual(float(value['result_values']['amount_with_tax_sell']), float(result), 2)
+        func = None
+        calc = None
+ 
+    def test_calculate_profit_loss(self):
+        """
+            Test calculate_profit_loss
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            result = calc.calculate_profit_loss(
+                    func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                    value['i_shares_buy'],
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                    value['i_shares_sell'],
+                    value['i_tax_buy'],
+                    value['i_tax_sell'],
+                    value['i_commission_buy'],
+                    value['i_commission_sell'],
+                    value['i_long_bool'])
+            self.assertAlmostEqual(float(value['result_values']['profit_loss']), float(result), 2)
+        func = None
+        calc = None
+
 #    def test_calculate_cost_other(self):
 #        """
 #            Test calculate_cost_other
