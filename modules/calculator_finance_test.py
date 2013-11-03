@@ -400,42 +400,44 @@ class TestValues0(unittest.TestCase):
         func = None
         calc = None
 
-#    def test_calculate_cost_other(self):
-#        """
-#            Test calculate_cost_other
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            result = calc.calculate_cost_other(
-#                    value['result_values']['cost_total'],
-#                    value['result_values']['profit_loss'])
-#            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 2)
-#        calc = None
-#
-#    def test_calculate_shares_recommended(self):
-#        """
-#            Test calculate_shares_recommended
-#        """
-#        calc = CalculatorFinance()
-#        for value in self.test_values:
-#            print("test_shares_recommended - i_pool =", value['i_pool'])
-#            print("test_shares_recommended - i_risk_input =", value['i_risk_input'])
-#            print("test_shares_recommended - i_commission_sell =",
-#                    value['i_commission_sell'])
-#            print("test_shares_recommended - i_tax_sell =", value['i_tax_buy'])
-#            print("test_shares_recommended - i_price_sell =",
-#                    self.test_conversion(value['i_price_sell_orig'],
-#                        value['i_exchange_rate_sell']))
-#            result = calc.calculate_shares_recommended(
-#                    value['i_pool'],
-#                    value['i_risk_input'],
-#                    value['i_commission_sell'],
-#                    value['i_tax_sell'],
-#                    self.test_conversion(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
-#                    )
-#            self.assertAlmostEqual(float(value['result_values']['shares_recommended']), float(result), 2)
-#        calc = None
-#
+    def test_calculate_cost_other(self):
+        """
+            Test calculate_cost_other
+        """
+        calc = CalculatorFinance()
+        for value in self.test_values:
+            result = calc.calculate_cost_other(
+                    value['result_values']['cost_total'],
+                    value['result_values']['profit_loss'])
+            self.assertAlmostEqual(float(value['result_values']['cost_other']), float(result), 2)
+        calc = None
+
+    def test_calculate_shares_recommended(self):
+        """
+            Test calculate_shares_recommended
+        """
+        calc = CalculatorFinance()
+        func = Functions()
+        for value in self.test_values:
+            print("test_shares_recommended - i_pool =", value['i_pool'])
+            print("test_shares_recommended - i_risk_input =", value['i_risk_input'])
+            print("test_shares_recommended - i_commission_sell =",
+                    value['i_commission_sell'])
+            print("test_shares_recommended - i_tax_sell =", value['i_tax_buy'])
+            print("test_shares_recommended - i_price_sell =",
+                    func.test_conversion_to(value['i_price_sell_orig'],
+                        value['i_exchange_rate_sell']))
+            result = calc.calculate_shares_recommended(
+                    value['i_pool'],
+                    value['i_risk_input'],
+                    value['i_commission_sell'],
+                    value['i_tax_sell'],
+                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
+                    )
+            self.assertAlmostEqual(float(value['result_values']['shares_recommended']), float(result), 2)
+        func = None
+        calc = None
+
 #    def test_calculate_price_buy(self):
 #        """
 #            Test calculate_price at buying.
