@@ -41,9 +41,9 @@ class Functions():
         """
         return pool*(Decimal('1.0')-margin/Decimal(100.0))
 
-class TestValues0(unittest.TestCase):
+class TestValues_ShortWin(unittest.TestCase):
     """
-        Win - short
+        short - win
     """
     test_values = [] 
     test_values.append({
