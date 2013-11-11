@@ -239,7 +239,7 @@ class CalculatorFinance:
             result = shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - shares * price * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         return result
 
-    def calculate_risk_actual(self, price_buy, shares_buy, price_sell, shares_sell, stoploss, risk_initial, long_bool):
+    def calculate_risk_actual(self, price_buy, shares_buy, tax_buy, commission_buy, price_sell, shares_sell, tax_sell, commission_sell, stoploss, risk_initial, long_bool):
         """
             Calculates the risk we actually took,
             based on the data in TABLE_TRADE.
@@ -253,10 +253,9 @@ class CalculatorFinance:
             -----
             risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
         """
-        result = risk_initial
-        if ((price_sell < stoploss) and long_bool) \
-            or ((price_buy > stoploss) and not long_bool):
-            result = shares_buy * price_buy * (Decimal('1.0') + tax / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') + tax / Decimal('100.0')) + Decimal('2.0') * commission
+        result = shares_sell * price_sell * (Decimal('1.0') - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - commission_buy - commission_sell
+        if (result < 0) and (abs(result) > risk_initial):
+            result = risk_initial
         return result
 
     def calculate_r_multiple(self, profit_loss, risk_initial):
@@ -334,11 +333,11 @@ class CalculatorFinance:
             Calculation based on:
             long
             ----
-            risk_actual =  S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C)
+            profit_loss =  S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C)
             
             short
             -----
-            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
+            profit_loss = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
 
         """
         return shares_sell * price_sell * (1 - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (1 - tax_buy / Decimal('100.0')) - (commission_buy + commission_sell)

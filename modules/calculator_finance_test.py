@@ -80,9 +80,9 @@ class TestValues_ShortWin(unittest.TestCase):
             ,'stoploss_orig': Decimal('20.0239')
             ,'risk_input': Decimal('162.3648')
             ,'risk_initial': Decimal('162.3648')
-            ,'risk_initial_percent': Decimal('1.79')
-            ,'risk_actual': Decimal('148.61705')
-            ,'risk_actual_percent': Decimal('1.79')
+            ,'risk_initial_percent': Decimal('2.00')
+            ,'risk_actual': Decimal('148.1353')
+            ,'risk_actual_percent': Decimal('2.00')
             ,'r_multiple': Decimal('1.1')
             ,'amount_buy_simple':Decimal('7227.0419')
             ,'amount_sell_simple':Decimal('7396.5353')
@@ -94,7 +94,7 @@ class TestValues_ShortWin(unittest.TestCase):
             ,'cost_tax_sell': DEFAULT_DECIMAL
             ,'amount_with_tax_buy':Decimal('7227.0419')
             ,'amount_with_tax_sell':Decimal('7396.5353')
-            ,'profit_loss': Decimal('163.3648')
+            ,'profit_loss': Decimal('163.4934')
             ,'profit_loss_percent': Decimal('2.2')
             ,'cost_other': DEFAULT_DECIMAL
             ,'shares_recommended': 520
@@ -182,8 +182,12 @@ class TestValues_ShortWin(unittest.TestCase):
             result = calc.calculate_risk_actual(
                     value['result_values']['price_buy'],
                     value['i_shares_buy'],
+                    value['i_tax_buy'],
+                    value['i_commission_buy'],
                     func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
+                    value['i_tax_sell'],
+                    value['i_commission_sell'],
                     value['result_values']['stoploss'],
                     value['result_values']['risk_initial'],
                     value['i_long_bool'])
