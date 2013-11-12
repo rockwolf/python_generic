@@ -247,16 +247,19 @@ class CalculatorFinance:
             Calculation based on:
             long
             ----
-            risk_actual = S.Pb + S.Pb.T + C - (S.Ps - S.Ps.T - C)
+            risk_actual = S.Pb + S.Pb.T + Cb - (S.Ps - S.Ps.T - Cs)
+            or 
+            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + Cb) and
+            abs value of result also works
             
             short
             -----
-            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
+            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + Cb)
         """
         result = shares_sell * price_sell * (Decimal('1.0') - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - commission_buy - commission_sell
         if (result < 0) and (abs(result) > risk_initial):
             result = risk_initial
-        return result
+        return abs(result)
 
     def calculate_r_multiple(self, profit_loss, risk_initial):
         """ 
