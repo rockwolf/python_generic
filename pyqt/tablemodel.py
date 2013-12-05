@@ -128,12 +128,12 @@ class TableModel(QtCore.QAbstractTableModel):
     
     def clear(self):
         """
-                Clear the data.
+            Clear the data.
         """
         self.__values = [[]]
 
     def get_values(self):
         """
-                Returns the values.
+            Returns the values.
         """
         return self.__values
