@@ -7,7 +7,7 @@ See LICENSE file for copyright and license details.
 A file with financial calculations
 """
 
-from constant import * 
+from generic.modules.constant import * 
 from decimal import Decimal, getcontext
 from math import floor
 
