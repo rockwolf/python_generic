@@ -25,7 +25,7 @@ class TableModel(QtCore.QAbstractTableModel):
                 if section < len(self.__headers):
                     return self.__headers[section]
                 else:
-                    return "TEMP"
+                    return ""
             else:
                 return "{}".format(section)
 
