@@ -76,14 +76,14 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
-            'stoploss': Decimal('14.5248')
-            ,'stoploss_orig': Decimal('20.0239')
-            ,'risk_input': Decimal('162.3648')
-            ,'risk_initial': Decimal('162.3648')
+            'stoploss': Decimal('14.4974')
+            ,'stoploss_orig': Decimal('19.9862')
+            ,'risk_input': Decimal('148.1353')
+            ,'risk_initial': Decimal('148.1353')
             ,'risk_initial_percent': Decimal('2.00')
             ,'risk_actual': Decimal('148.1353')
             ,'risk_actual_percent': Decimal('2.00')
-            ,'r_multiple': Decimal('1.1')
+            ,'r_multiple': Decimal('1.1037')
             ,'amount_buy_simple':Decimal('7227.0419')
             ,'amount_sell_simple':Decimal('7396.5353')
             ,'amount_buy':Decimal('7230.0419')
@@ -179,6 +179,20 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
+            print "Test for value:"
+            print "price_buy:", value['result_values']['price_buy']
+            print "shares_buy:", value['i_shares_buy']
+            print "tax_buy:", value['i_tax_buy']
+            print "commission_buy:", value['i_commission_buy']
+            print "price_sell_orig:", value['i_price_sell_orig']
+            print "exchange_rate_sell:", value['i_exchange_rate_sell']
+            print "test_conversion_to_price_eur:", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
+            print "shares_sell:", value['i_shares_sell']
+            print "tax_sell:", value['i_tax_sell']
+            print "commission_sell:", value['i_commission_sell']
+            print "stoploss:", value['result_values']['stoploss']
+            print "risk_initial:", value['result_values']['risk_initial']
+            print "i_long_bool:", value['i_long_bool']
             result = calc.calculate_risk_actual(
                     value['result_values']['price_buy'],
                     value['i_shares_buy'],

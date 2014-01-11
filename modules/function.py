@@ -2,7 +2,7 @@
 See LICENSE file for copyright and license details.
 """
 from datetime import datetime
-from generic.modules.constant import Align
+from constant import Align
 
 """ A file with functions that can be used everywhere """
 

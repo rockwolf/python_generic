@@ -7,7 +7,7 @@ See LICENSE file for copyright and license details.
 A file with financial calculations
 """
 
-from generic.modules.constant import * 
+from constant import * 
 from decimal import Decimal, getcontext
 from math import floor
 
@@ -231,13 +231,13 @@ class CalculatorFinance:
             S.Pb + S.Pb.T + C - (S.Psl - S.Psl.T - C)
             Short
             -----
-            S.Psl + S.Psl.T + C - (S.Ps - S.Ps.T - C)
+            S.Ps - S.Ps.T - C - (S.Psl + S.Psl.T + C)
         """
         if long_bool:
             result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         else:
-            result = shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - shares * price * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
-        return result
+            result = shares * price * (Decimal('1.0') - tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - Decimal('2.0') * commission
+        return abs(result)
 
     def calculate_risk_actual(self, price_buy, shares_buy, tax_buy, commission_buy, price_sell, shares_sell, tax_sell, commission_sell, stoploss, risk_initial, long_bool):
         """
@@ -248,16 +248,16 @@ class CalculatorFinance:
             long
             ----
             risk_actual = S.Pb + S.Pb.T + Cb - (S.Ps - S.Ps.T - Cs)
-            or 
-            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + Cb) and
-            abs value of result also works
             
             short
             -----
-            risk_actual = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + Cb)
+            risk_actual = S.Ps - S.Ps.T - Cs - (S.Pb + S.Pb.T + Cb)
         """
-        result = shares_sell * price_sell * (Decimal('1.0') - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - commission_buy - commission_sell
-        if (result < 0) and (abs(result) > risk_initial):
+        if long_bool:
+            result = shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') - tax_buy / Decimal('100.0')) + commission_buy + commission_sell
+        else:
+            result = shares_sell * price_sell * (Decimal('1.0') - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - commission_buy - commission_sell
+        if (result > 0) or ( (result < 0) and (abs_result < risk_initial) ):
             result = risk_initial
         return abs(result)
 
