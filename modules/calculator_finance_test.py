@@ -72,7 +72,7 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_automatic_flag':False,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':False,
-        'i_pool':Decimal('10612.08'),
+        'i_pool':Decimal('9875.6879'),
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
@@ -98,8 +98,8 @@ class TestValues_ShortWin(unittest.TestCase):
             ,'profit_loss_percent': Decimal('2.2')
             ,'cost_other': DEFAULT_DECIMAL
             ,'shares_recommended': 520
-            ,'price_buy':Decimal('13.9')
-            ,'price_sell':Decimal('14.22')
+            ,'price_buy':Decimal('13.8982')
+            ,'price_sell':Decimal('14.2241')
             ,'price_buy_orig':Decimal('19.16')
             ,'price_sell_orig':Decimal('19.46')
             ,'commission_buy':Decimal('3.0')
