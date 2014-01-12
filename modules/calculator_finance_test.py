@@ -428,14 +428,6 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print("test_shares_recommended - i_pool =", value['i_pool'])
-            print("test_shares_recommended - i_risk_input =", value['i_risk_input'])
-            print("test_shares_recommended - i_commission_sell =",
-                    value['i_commission_sell'])
-            print("test_shares_recommended - i_tax_sell =", value['i_tax_buy'])
-            print("test_shares_recommended - i_price_sell =",
-                    func.test_conversion_to(value['i_price_sell_orig'],
-                        value['i_exchange_rate_sell']))
             result = calc.calculate_shares_recommended(
                     value['i_pool'],
                     value['i_risk_input'],
