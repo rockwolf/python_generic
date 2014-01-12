@@ -360,8 +360,9 @@ class CalculatorFinance:
         """
             Calculate the recommended amount of shares you can buy.
         """
-        var_T = pool * risk
-        var_N = price * (1 + tax / Decimal('100.0'))
+        traded_capital = pool * (Decimal('1.0') - Decimal('25.0') / Decimal('100.0'))
+        var_T = traded_capital - (tax / Decimal('100.0') * traded_capital) - commission
+        var_N = price
         return  floor(var_T / var_N)
 
     def calculate_price(self, transactionid, amount, shares, tax, commission):

@@ -161,6 +161,10 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
+            print "price_sell_orig:", value['i_price_sell_orig']
+            print "exchange_rate_sell:", value['i_exchange_rate_sell']
+            print "conversion:", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
+            print "stoploss:", value['result_values']['stoploss']
             result = calc.calculate_risk_initial(
                     func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_sell'],
@@ -169,6 +173,7 @@ class TestValues_ShortWin(unittest.TestCase):
                     value['result_values']['stoploss'],
                     value['i_long_bool'])
             self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
+            print "result = ", result
         func = None
         calc = None
 
@@ -179,20 +184,6 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print "Test for value:"
-            print "price_buy:", value['result_values']['price_buy']
-            print "shares_buy:", value['i_shares_buy']
-            print "tax_buy:", value['i_tax_buy']
-            print "commission_buy:", value['i_commission_buy']
-            print "price_sell_orig:", value['i_price_sell_orig']
-            print "exchange_rate_sell:", value['i_exchange_rate_sell']
-            print "test_conversion_to_price_eur:", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
-            print "shares_sell:", value['i_shares_sell']
-            print "tax_sell:", value['i_tax_sell']
-            print "commission_sell:", value['i_commission_sell']
-            print "stoploss:", value['result_values']['stoploss']
-            print "risk_initial:", value['result_values']['risk_initial']
-            print "i_long_bool:", value['i_long_bool']
             result = calc.calculate_risk_actual(
                     value['result_values']['price_buy'],
                     value['i_shares_buy'],
