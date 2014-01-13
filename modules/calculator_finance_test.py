@@ -72,7 +72,7 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_automatic_flag':False,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':False,
-        'i_pool':Decimal('9875.6879'),
+        'i_pool': Decimal('9875.6879'),
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
@@ -428,8 +428,13 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
+            print 'test: ', func.test_margin_of_pool(
+                        value['i_pool'],
+                        value['i_margin'])
             result = calc.calculate_shares_recommended(
-                    value['i_pool'],
+                    func.test_margin_of_pool(
+                        value['i_pool'],
+                        value['i_margin']),
                     value['i_risk_input'],
                     value['i_commission_sell'],
                     value['i_tax_sell'],

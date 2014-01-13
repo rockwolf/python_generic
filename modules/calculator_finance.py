@@ -360,8 +360,7 @@ class CalculatorFinance:
         """
             Calculate the recommended amount of shares you can buy.
         """
-        traded_capital = pool * (Decimal('1.0') - Decimal('25.0') / Decimal('100.0'))
-        var_T = traded_capital - (tax / Decimal('100.0') * traded_capital) - commission
+        var_T = pool - (tax / Decimal('100.0') * pool) - commission
         var_N = price
         return  floor(var_T / var_N)
 
