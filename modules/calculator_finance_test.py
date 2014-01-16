@@ -57,8 +57,8 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_date_sell':string_to_date("2013-10-21"),
         'i_price_buy_orig':Decimal('19.16'),
         'i_price_sell_orig':Decimal('19.46'),
-        'i_shares_buy':520,
-        'i_shares_sell':520,
+        'i_shares_buy':522,
+        'i_shares_sell':522,
         'i_comment':'test comment',
         'i_commission_buy':Decimal('3.0'),
         'i_commission_sell':Decimal('3.0'),
@@ -72,32 +72,32 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_automatic_flag':False,
         'i_date_expiration':string_to_date("2014-01-01"),
         'i_periodic':False,
-        'i_pool': Decimal('9875.6879'),
+        'i_pool': Decimal('9906.765901'),
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
-            'stoploss': Decimal('14.4974')
+            'stoploss': Decimal('14.4973')
             ,'stoploss_orig': Decimal('19.9862')
-            ,'risk_input': Decimal('148.1353')
-            ,'risk_initial': Decimal('148.1353')
+            ,'risk_input': Decimal('148.6015')
+            ,'risk_initial': Decimal('148.6015')
             ,'risk_initial_percent': Decimal('2.00')
-            ,'risk_actual': Decimal('148.1353')
+            ,'risk_actual': Decimal('148.6015')
             ,'risk_actual_percent': Decimal('2.00')
-            ,'r_multiple': Decimal('1.1037')
-            ,'amount_buy_simple':Decimal('7227.0419')
-            ,'amount_sell_simple':Decimal('7396.5353')
-            ,'amount_buy':Decimal('7230.0419')
-            ,'amount_sell':Decimal('7393.5353')
+            ,'r_multiple': Decimal('1.1046')
+            ,'amount_buy_simple':Decimal('7254.8382')
+            ,'amount_sell_simple':Decimal('7424.9836')
+            ,'amount_buy':Decimal('7257.8382')
+            ,'amount_sell':Decimal('7421.9836')
             ,'cost_transaction_buy': Decimal('3.0')
             ,'cost_transaction_sell': Decimal('3.0')
             ,'cost_tax_buy': DEFAULT_DECIMAL
             ,'cost_tax_sell': DEFAULT_DECIMAL
-            ,'amount_with_tax_buy':Decimal('7227.0419')
-            ,'amount_with_tax_sell':Decimal('7396.5353')
-            ,'profit_loss': Decimal('163.4934')
+            ,'amount_with_tax_buy':Decimal('7254.8382')
+            ,'amount_with_tax_sell':Decimal('7424.9836')
+            ,'profit_loss': Decimal('164.1453')
             ,'profit_loss_percent': Decimal('2.2')
             ,'cost_other': DEFAULT_DECIMAL
-            ,'shares_recommended': 520
+            ,'shares_recommended': 522
             ,'price_buy':Decimal('13.8982')
             ,'price_sell':Decimal('14.2241')
             ,'price_buy_orig':Decimal('19.16')
@@ -428,7 +428,8 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print 'test: ', func.test_margin_of_pool(
+            print ' test0: pool=', value['i_pool']
+            print 'test1: margin_of_pool=', func.test_margin_of_pool(
                         value['i_pool'],
                         value['i_margin'])
             result = calc.calculate_shares_recommended(
