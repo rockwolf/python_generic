@@ -226,12 +226,12 @@ class CalculatorFinance:
             correctly calculated.
             Note:
             Calculated using:
-            Long
-            ----
+            
             S.Pb + S.Pb.T + C - (S.Psl - S.Psl.T - C)
-            Short
+            
+            Note:
             -----
-            S.Ps - S.Ps.T - C - (S.Psl + S.Psl.T + C)
+            It's the same for long and short.
         """
         if long_bool:
             result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
@@ -245,18 +245,14 @@ class CalculatorFinance:
             based on the data in TABLE_TRADE.
             Note:
             Calculation based on:
-            long
-            ----
+            
             risk_actual = S.Pb + S.Pb.T + Cb - (S.Ps - S.Ps.T - Cs)
             
-            short
+            Note:
             -----
-            risk_actual = S.Ps - S.Ps.T - Cs - (S.Pb + S.Pb.T + Cb)
+            It's the same for long and short.
         """
-        if long_bool:
-            result = shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') - tax_buy / Decimal('100.0')) + commission_buy + commission_sell
-        else:
-            result = shares_sell * price_sell * (Decimal('1.0') - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - commission_buy - commission_sell
+        result = shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') - tax_buy / Decimal('100.0')) + commission_buy + commission_sell
         if (result > 0) or ( (result < 0) and (abs_result < risk_initial) ):
             result = risk_initial
         return abs(result)
