@@ -226,12 +226,12 @@ class CalculatorFinance:
             correctly calculated.
             Note:
             Calculated using:
-            Long
-            ----
+            
             S.Pb + S.Pb.T + C - (S.Psl - S.Psl.T - C)
-            Short
+            
+            Note:
             -----
-            S.Ps - S.Ps.T - C - (S.Psl + S.Psl.T + C)
+            It's the same for long and short.
         """
         if long_bool:
             result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
