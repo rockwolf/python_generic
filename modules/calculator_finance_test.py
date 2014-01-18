@@ -161,19 +161,28 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print "price_sell_orig:", value['i_price_sell_orig']
-            print "exchange_rate_sell:", value['i_exchange_rate_sell']
-            print "conversion:", func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell'])
+            print "price_sell_orig:", value['i_price_buy_orig']
+            print "exchange_rate_sell:", value['i_exchange_rate_buy']
+            print "conversion:", func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy'])
             print "stoploss:", value['result_values']['stoploss']
-            result = calc.calculate_risk_initial(
-                    func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
-                    value['i_shares_sell'],
-                    value['i_tax_sell'],
-                    value['i_commission_sell'],
-                    value['result_values']['stoploss'],
-                    value['i_long_bool'])
-            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
+            if value['i_long_bool']:
+                result = calc.calculate_risk_initial(
+                        func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
+                        value['i_shares_buy'],
+                        value['i_tax_buy'],
+                        value['i_commission_buy'],
+                        value['result_values']['stoploss'],
+                        value['i_long_bool'])
+            else:
+                result = calc.calculate_risk_initial(
+                        func.test_conversion_to(value['i_price_sell_orig'], value['i_exchange_rate_sell']),
+                        value['i_shares_sell'],
+                        value['i_tax_sell'],
+                        value['i_commission_sell'],
+                        value['result_values']['stoploss'],
+                        value['i_long_bool'])
             print "result = ", result
+            self.assertAlmostEqual(float(value['result_values']['risk_initial']), float(result), 4)
         func = None
         calc = None
 
@@ -185,7 +194,7 @@ class TestValues_ShortWin(unittest.TestCase):
         func = Functions()
         for value in self.test_values:
             result = calc.calculate_risk_actual(
-                    value['result_values']['price_buy'],
+                    func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_sell']),
                     value['i_shares_buy'],
                     value['i_tax_buy'],
                     value['i_commission_buy'],
@@ -195,6 +204,7 @@ class TestValues_ShortWin(unittest.TestCase):
                     value['i_commission_sell'],
                     value['result_values']['stoploss'],
                     value['result_values']['risk_initial'],
+                    value['result_values']['profit_loss'],
                     value['i_long_bool'])
             self.assertAlmostEqual(float(value['result_values']['risk_actual']), float(result), 4)
         func = None

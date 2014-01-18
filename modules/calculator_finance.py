@@ -227,19 +227,23 @@ class CalculatorFinance:
             Note:
             Calculated using:
             
+            long:
             S.Pb + S.Pb.T + C - (S.Psl - S.Psl.T - C)
             
-            Note:
-            -----
-            It's the same for long and short.
+            short:
+            S.Ps + S.Psl.T + C - (S.Ps - S.Ps.T - C)
         """
+        print "shares=", shares
+        print "stoploss=", stoploss
+        print "price=", price
         if long_bool:
             result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         else:
-            result = shares * price * (Decimal('1.0') - tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - Decimal('2.0') * commission
+            result = shares * stoploss * (Decimal('1.0') + tax / Decimal('100.0')) - shares * price * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
+
         return abs(result)
 
-    def calculate_risk_actual(self, price_buy, shares_buy, tax_buy, commission_buy, price_sell, shares_sell, tax_sell, commission_sell, stoploss, risk_initial, long_bool):
+    def calculate_risk_actual(self, price_buy, shares_buy, tax_buy, commission_buy, price_sell, shares_sell, tax_sell, commission_sell, stoploss, risk_initial, profit_loss, long_bool):
         """
             Calculates the risk we actually took,
             based on the data in TABLE_TRADE.
@@ -252,9 +256,10 @@ class CalculatorFinance:
             -----
             It's the same for long and short.
         """
-        result = shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') - tax_buy / Decimal('100.0')) + commission_buy + commission_sell
-        if (result > 0) or ( (result < 0) and (abs_result < risk_initial) ):
+        if ((profit_loss < DEFAULT_DECIMAL) and (abs(profit_loss) < risk_initial)) or (profit_loss >= DEFAULT_DECIMAL):
             result = risk_initial
+        else:
+            result = shares_buy * price_buy * (Decimal('1.0') + tax_buy / Decimal('100.0')) - shares_sell * price_sell * (Decimal('1.0') - tax_buy / Decimal('100.0')) + commission_buy + commission_sell
         return abs(result)
 
     def calculate_r_multiple(self, profit_loss, risk_initial):
