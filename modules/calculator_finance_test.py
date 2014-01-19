@@ -76,7 +76,7 @@ class TestValues_ShortWin(unittest.TestCase):
         'i_margin':Decimal('25.0'),
         'i_long_bool':False,
         'result_values': {
-            'stoploss': Decimal('14.4973')
+            'stoploss': Decimal('14.49728936')
             ,'stoploss_orig': Decimal('19.9862')
             ,'risk_input': Decimal('148.6015')
             ,'risk_initial': Decimal('148.6015')
@@ -161,10 +161,6 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print "price_sell_orig:", value['i_price_buy_orig']
-            print "exchange_rate_sell:", value['i_exchange_rate_buy']
-            print "conversion:", func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy'])
-            print "stoploss:", value['result_values']['stoploss']
             if value['i_long_bool']:
                 result = calc.calculate_risk_initial(
                         func.test_conversion_to(value['i_price_buy_orig'], value['i_exchange_rate_buy']),
@@ -438,10 +434,6 @@ class TestValues_ShortWin(unittest.TestCase):
         calc = CalculatorFinance()
         func = Functions()
         for value in self.test_values:
-            print ' test0: pool=', value['i_pool']
-            print 'test1: margin_of_pool=', func.test_margin_of_pool(
-                        value['i_pool'],
-                        value['i_margin'])
             result = calc.calculate_shares_recommended(
                     func.test_margin_of_pool(
                         value['i_pool'],

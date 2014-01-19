@@ -233,9 +233,6 @@ class CalculatorFinance:
             short:
             S.Ps + S.Psl.T + C - (S.Ps - S.Ps.T - C)
         """
-        print "shares=", shares
-        print "stoploss=", stoploss
-        print "price=", price
         if long_bool:
             result = shares * price * (Decimal('1.0') + tax / Decimal('100.0')) - shares * stoploss * (Decimal('1.0') - tax / Decimal('100.0')) + Decimal('2.0') * commission
         else:
