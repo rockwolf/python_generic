@@ -53,7 +53,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.ToolTipRole:
             row = index.row()
             column = index.column()
-            return "data: " + self.__values[row][column]
+            return "data: " + str(self.__values[row][column])
         #if role == QtCore.Qt.DecorationRole:
         # row = index.row()
         # column = index.column()
