@@ -46,14 +46,12 @@ class TableModel(QtCore.QAbstractTableModel):
             Gets the data of the model
             for the different roles.
         """
-        if role == QtCore.Qt.EditRole:
+        if ((role == QtCore.Qt.EditRole)
+            or (role == QtCore.Qt.ToolTipRole)
+            or (role == QtCore.Qt.DisplayRole)):
             row = index.row()
             column = index.column()
-            return self.__values[row][column]
-        if role == QtCore.Qt.ToolTipRole:
-            row = index.row()
-            column = index.column()
-            return "data: " + str(self.__values[row][column])
+            return QVariant(self.__values[row][column])
         #if role == QtCore.Qt.DecorationRole:
         # row = index.row()
         # column = index.column()
@@ -62,11 +60,6 @@ class TableModel(QtCore.QAbstractTableModel):
         # pixmap.fill(value)
         # icon = QtGui.QIcon(pixmap)
         # return icon
-        if role == QtCore.Qt.DisplayRole:
-            row = index.row()
-            column = index.column()
-            value = self.__values[row][column]
-            return value
    
     def flags(self, index):
         """
@@ -78,12 +71,12 @@ class TableModel(QtCore.QAbstractTableModel):
         """
            Sets the model data.
         """
-        print("-- test [setData]:", value)
+        print '-- test [setData0, value]:', value
         if role == QtCore.Qt.EditRole:
             row = index.row()
             column = index.column()
             #if value.isValid():
-            print(value)
+            print '-- test [setData1, value]:', value
             self.__values[row][column] = value
             self.dataChanged.emit(index, index)
             return True
