@@ -51,7 +51,7 @@ class TableModel(QtCore.QAbstractTableModel):
             or (role == QtCore.Qt.DisplayRole)):
             row = index.row()
             column = index.column()
-            return QVariant(self.__values[row][column])
+            return QtCore.QVariant(self.__values[row][column])
         #if role == QtCore.Qt.DecorationRole:
         # row = index.row()
         # column = index.column()
