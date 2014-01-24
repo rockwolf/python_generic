@@ -51,7 +51,6 @@ class TableModel(QtCore.QAbstractTableModel):
             or (role == QtCore.Qt.DisplayRole)):
             row = index.row()
             column = index.column()
-            print '-test generic: in data: values=', self.__values
             return QtCore.QVariant(str(self.__values[row][column]))
         #if role == QtCore.Qt.DecorationRole:
         # row = index.row()
@@ -72,12 +71,10 @@ class TableModel(QtCore.QAbstractTableModel):
         """
            Sets the model data.
         """
-        print '-- test [setData0, value]:', value
         if role == QtCore.Qt.EditRole:
             row = index.row()
             column = index.column()
             #if value.isValid():
-            print '-- test [setData1, value]:', value
             self.__values[row][column] = value
             self.dataChanged.emit(index, index)
             return True
