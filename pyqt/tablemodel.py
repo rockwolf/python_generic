@@ -84,7 +84,6 @@ class TableModel(QtCore.QAbstractTableModel):
         """
             Inserts rows to the model.
         """
-        print("-- test [insertRows]:", values)
         self.beginInsertRows(QtCore.QModelIndex(), position, position + rows - 1)
         for i in range(rows):
             #for item in values[i]:
