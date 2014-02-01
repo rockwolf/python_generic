@@ -383,7 +383,7 @@ class CalculatorFinance:
         if account.lower() == "binb00":
             result = get_binb00_commission(market, price, shares)
         elif account.lower() == "whsi00":
-            result = get_whsi00_commission(market, commodity, price, shares)
+            result = self.get_whsi00_commission(market, commodity, price, shares)
         return result
 
     def get_binb00_commission(self, market, price, shares):
@@ -420,17 +420,17 @@ class CalculatorFinance:
         """
             Gets the binb00 commission for the given threshhold value.
         """
-        index = get_binb00_commission_index(market)
+        index = self.get_binb00_commission_index(market)
         if amount_simple <= Decimal('2500.0'):
-            result = binb00_commissions["2500"][index]
+            result = self.binb00_commissions["2500"][index]
         elif (amount_simple > Decimal('2500.0')) and (amount_simple <= Decimal('5000.0')):
-            result = binb00_commissions["5000"][index]
+            result = self.binb00_commissions["5000"][index]
         elif (amount_simple > Decimal('5000.0')) and (amount_simple <= Decimal('25000.0')):
-            result = binb00_commissions["25000"][index]
+            result = self.binb00_commissions["25000"][index]
         elif (amount_simple > Decimal('25000.0')) and (amount_simple <= Decimal('50000.0')):
-            result = binb00_commissions["50000"][index]
+            result = self.binb00_commissions["50000"][index]
         elif (amount_simple > Decimal('5000.0')):
-            result = binb00_commissions["50000+"][index]
+            result = self.binb00_commissions["50000+"][index]
             #TODO: expand for options?
         else:
             result = DEFAULT_DECIMAL
@@ -440,15 +440,15 @@ class CalculatorFinance:
         """
             Get the correct commission for whsi00.
         """
-        if is_non_share_cfd(market):
+        if self.is_non_share_cfd(market):
             result = Decimal('3.0')
-        elif is_share_cfd(market):
-            result = Decimal('4.50') + calculate_percentage_of(Decimal('0.054'), amount_simple)
-        elif is_share_cfd_dev1(market):
-            result = Decimal('4.50') + calculate_percentage_of(Decimal('0.09'), amount_simple)
-        elif is_share_cfd_dev2(market):
-            result = Decimal('4.50') + calculate_percentage_of(Decimal('0.19'), amount_simple)
-        elif is_share_cfd_us(market):
+        elif self.is_share_cfd(market):
+            result = Decimal('4.50') + self.calculate_percentage_of(Decimal('0.054'), amount_simple)
+        elif self.is_share_cfd_dev1(market):
+            result = Decimal('4.50') + self.calculate_percentage_of(Decimal('0.09'), amount_simple)
+        elif self.is_share_cfd_dev2(market):
+            result = Decimal('4.50') + self.calculate_percentage_of(Decimal('0.19'), amount_simple)
+        elif self.is_share_cfd_us(market):
             result = Decimal('4.50') + Decimal('0.023') * Decimal(str(shares))
         else:
             result = DEFAULT_DECIMAL
