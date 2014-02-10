@@ -20,6 +20,10 @@ class CalculatorFinance:
         """
             Initialisation.
         """
+        #TODO: since we are in python,
+        # add an rc file with connection data
+        # and retrieve all the below values
+        # from the databas.
         getcontext().prec = 28
 
         ## Market definitions ##
