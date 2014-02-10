@@ -191,6 +191,20 @@ class CalculatorFinance:
         return value / from_value * Decimal('100.0')
 
     ## Financial calculations ##
+    def convert_from_orig(self, price, exchange_rate):
+        """
+            Returns a price, with an exchange rate applied to it.
+            Used to convert a given currency to a new currency.
+        """
+        return Decimal(price) * Decimal(exchange_rate)
+        
+    def convert_to_orig(self, converted_price, exchange_rate):
+        """
+            Returns a price in the original currency, with the
+            exchange rate no longer applied to it.
+        """
+        return Decimal(converted_price) / Decimal(exchange_rate)
+        
     def calculate_stoploss(self, price, shares, tax, commission, i_risk, i_pool, long_bool):
         """
             Calculates the stoploss.
