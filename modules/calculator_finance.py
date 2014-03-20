@@ -347,6 +347,22 @@ class CalculatorFinance:
 
     def calculate_profit_loss(self, price_buy, shares_buy, price_sell, shares_sell, tax_buy, tax_sell, commission_buy, commission_sell, long_bool):
         """
+            Calculates the profit_loss, without taking the commission into account.
+            Note:
+            Calculation based on:
+            long
+            ----
+            profit_loss =  S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C)
+            
+            short
+            -----
+            profit_loss = S.Ps - S.Ps.T - C - (S.Pb + S.Pb.T + C) 
+
+        """
+        return shares_sell * price_sell * (1 - tax_sell / Decimal('100.0')) - shares_buy * price_buy * (1 - tax_buy / Decimal('100.0'))
+
+    def calculate_profit_loss_total(self, price_buy, shares_buy, price_sell, shares_sell, tax_buy, tax_sell, commission_buy, commission_sell, long_bool):
+        """
             Calculates the profit_loss.
             Note:
             Calculation based on:
